@@ -1,8 +1,8 @@
 $(function() {
 
-    // just a super-simple JS demo
+    // this is just a super-simple demo of JS
 
-    var demoHeaderBox;
+	var demoHeaderBox;
 
     // simple demo to show create something via javascript on the page
     if ($('#javascript-header-demo-box').length !== 0) {
@@ -21,7 +21,7 @@ $(function() {
 
             // send an ajax-request to this URL: current-server.com/songs/ajaxGetStats
             // "url" is defined in views/_templates/footer.php
-            $.ajax(url + "/songs/ajaxGetStats")
+            $.ajax(url + "songs/ajaxGetStats")
                 .done(function(result) {
                     // this will be executed if the ajax-call was successful
                     // here we get the feedback from the ajax-call (result) and show it in #javascript-ajax-result-box
