@@ -45,10 +45,21 @@ if (defined('URL_SUB_FOLDER')) {
 
 /**
  * Configuration for: Database
- * This is the place where you define your database credentials, database type etc.
+ * This is our group login info for school
  */
-define('DB_TYPE', 'mysql');
+/*define('DB_TYPE', 'mysql');
 define('DB_HOST', 'fsc353_4.encs.concordia.ca');
 define('DB_NAME', 'fsc353_4');
 define('DB_USER', 'fsc353_4');
-define('DB_PASS', 'dchhbfa5');
+define('DB_PASS', 'dchhbfa5');*/
+
+
+/**
+ * Configure and uncomment this for your home info
+ * 
+ */
+define('DB_TYPE', 'mysql');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'fsc353_4');
+define('DB_USER', 'root');
+define('DB_PASS', 'agrajag');

@@ -22,36 +22,96 @@ if (!$this) {
 
     <!-- CSS -->
     <link href="/public/css/style.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- header -->
-    <div class="container">
-        <!-- Info -->
-        <div class="where-are-we-box">
-            Everything in this box is loaded from <strong>application/views/_templates/header.php</strong> !
-            <br>
-            The green line is added via JavaScript (to show how to integrate JavaScript).
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Brand</a>
         </div>
-        <h1>The header (used on all pages)</h1>
-        <!-- demo image -->
-        <h3>Demo image, to show usage of public/img folder</h3>
-        <div>
-            <img src="public/img/demo-image.png" alt="Demo image">
-        </div>
-        <!-- navigation -->
-        <h3>Demo Navigation</h3>
-        <div class="navigation">
-            <ul>
-                <!-- same like "home" or "home/index" -->
-                <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>"><?php echo URL_WITH_INDEX_FILE; ?>home</a></li>
-                <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>home/exampleone"><?php echo URL_WITH_INDEX_FILE; ?>home/exampleone</a></li>
-                <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>home/exampletwo"><?php echo URL_WITH_INDEX_FILE; ?>home/exampletwo</a></li>
-                <!-- "songs" and "songs/index" are the same -->
-                <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>songs/"><?php echo URL_WITH_INDEX_FILE; ?>songs/index</a></li>
-            </ul>
-        </div>
-        <!-- simple div for javascript output, just to show how to integrate js into this MVC construct -->
-        <h3>Demo JavaScript</h3>
-        <div id="javascript-header-demo-box">
-        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+
+
+
+
+
+<!--     <div class="container">
+    Info
+    <div class="where-are-we-box">
+        Everything in this box is loaded from <strong>application/views/_templates/header.php</strong> !
+        <br>
+        The green line is added via JavaScript (to show how to integrate JavaScript).
     </div>
+    <h1>The header (used on all pages)</h1>
+    demo image
+    <h3>Demo image, to show usage of public/img folder</h3>
+    <div>
+        <img src="public/img/demo-image.png" alt="Demo image">
+    </div>
+    navigation
+    <h3>Demo Navigation</h3>
+    <div class="navigation">
+        <ul>
+            same like "home" or "home/index"
+            <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>"><?php echo URL_WITH_INDEX_FILE; ?>home</a></li>
+            <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>home/exampleone"><?php echo URL_WITH_INDEX_FILE; ?>home/exampleone</a></li>
+            <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>home/exampletwo"><?php echo URL_WITH_INDEX_FILE; ?>home/exampletwo</a></li>
+            "songs" and "songs/index" are the same
+            <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>songs/"><?php echo URL_WITH_INDEX_FILE; ?>songs/index</a></li>
+        </ul>
+    </div>
+    simple div for javascript output, just to show how to integrate js into this MVC construct
+    <h3>Demo JavaScript</h3>
+    <div id="javascript-header-demo-box">
+    </div>
+</div> -->

@@ -82,17 +82,8 @@ class Application
         // array(4) { [0]=> string(10) "controller" [1]=> string(6) "action" [2]=> string(6) "param1" [3]=> string(6) "param2" }
         $url = array_values($url);
 
-        // if first element of our URL is the sub-folder (defined in config/config.php), then remove it from URL
-        if (defined('URL_SUB_FOLDER') && !empty($url[0]) && $url[0] === URL_SUB_FOLDER) {
-            // remove first element (that's obviously the sub-folder)
-            unset($url[0]);
-            // reset keys again
-            $url = array_values($url);
-        }
-
+       
         // Put URL parts into according properties
-        // By the way, the syntax here is just a short form of if/else, called "Ternary Operators"
-        // @see http://davidwalsh.name/php-shorthand-if-else-ternary-operators
         $this->url_controller = isset($url[0]) ? $url[0] : null;
         $this->url_action = isset($url[1]) ? $url[1] : null;
 
