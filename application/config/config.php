@@ -43,23 +43,4 @@ if (defined('URL_SUB_FOLDER')) {
     define('URL_WITH_INDEX_FILE', URL_PROTOCOL . URL_DOMAIN . '/' . URL_INDEX_FILE);
 }
 
-/**
- * Configuration for: Database
- * This is our group login info for school
- */
-define('DB_TYPE', 'mysql');
-define('DB_HOST', 'fsc353_4.encs.concordia.ca');
-define('DB_NAME', 'fsc353_4');
-define('DB_USER', 'fsc353_4');
-define('DB_PASS', 'dchhbfa5');
-
-
-/**
- * Configure and uncomment this for your home info
- * 
- */
-/*define('DB_TYPE', '');
-define('DB_HOST', '');
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASS', '');*/
+require('db-info.php');
