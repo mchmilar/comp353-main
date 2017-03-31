@@ -18,11 +18,17 @@ class Application
     public function __construct()
     {
         // create array with URL parts in $url
-        $this->getUrlWithoutModRewrite();
 
+        $this->getUrlWithoutModRewrite();
+        foreach ($this->url_params as $param) {
+            echo $param;
+        }
+        echo $this->url_action;
+        echo $this->url_controller;
+        return $this->url_controller;
         // check for controller: no controller given ? then load start-page
         if (!$this->url_controller) {
-
+            return $this->url_controller;
             require APP . 'controllers/home.php';
             $page = new Home();
             $page->index();
@@ -82,7 +88,7 @@ class Application
         // array(4) { [0]=> string(10) "controller" [1]=> string(6) "action" [2]=> string(6) "param1" [3]=> string(6) "param2" }
         $url = array_values($url);
 
-       
+
         // Put URL parts into according properties
         $this->url_controller = isset($url[0]) ? $url[0] : null;
         $this->url_action = isset($url[1]) ? $url[1] : null;
@@ -94,8 +100,8 @@ class Application
         $this->url_params = array_values($url);
 
         // for debugging. uncomment this if you have problems with the URL
-        //echo 'Controller: ' . $this->url_controller . '<br>';
-        //echo 'Action: ' . $this->url_action . '<br>';
-        //echo 'Parameters: ' . print_r($this->url_params, true) . '<br>';
+        echo 'Controller: ' . $this->url_controller . '<br>';
+        echo 'Action: ' . $this->url_action . '<br>';
+        echo 'Parameters: ' . print_r($this->url_params, true) . '<br>';
     }
 }
