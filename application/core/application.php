@@ -96,6 +96,6 @@ class Application
         // for debugging. uncomment this if you have problems with the URL
      //   echo 'Controller: ' . $this->url_controller . '<br>';
      //   echo 'Action: ' . $this->url_action . '<br>';
-    //    echo 'Parameters: ' . print_r($this->url_params, true) . '<br>';
+    //s    echo 'Parameters: ' . print_r($this->url_params, true) . '<br>';
     }
 }

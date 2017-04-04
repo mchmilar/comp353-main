@@ -1,6 +1,12 @@
 <?php if (!$this) { exit(header('HTTP/1.0 403 Forbidden')); } ?>
 
 <div class="container">
+
+    <!-- Customer info -->
+    <div>
+        <h2>Customer Name: <?php echo $customer->first_name . ' ' . $customer->last_name ?></h2>
+
+    </div>
     <!-- add project form -->
     <div>
         <h3>Add a project</h3>
@@ -24,8 +30,8 @@
     <div>
 
         <h3>List of projects</h3>
-        <table id="projects-table" class="display">
-            <thead>
+        <table>
+            <thead style="background-color: #ddd; font-weight: bold;">
             <tr>
                 <td>Project ID</td>
                 <td>Project Price</td>
@@ -46,4 +52,3 @@
         </table>
     </div>
 </div>
-

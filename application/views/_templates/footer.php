@@ -18,6 +18,9 @@
 	<!-- bootstrap -->
 	<script src="/public/js/bootstrap.min.js"></script>
 
+    <!-- datatables -->
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
     <!-- our JavaScript -->
     <script src="/public/js/application.js"></script>
 </body>

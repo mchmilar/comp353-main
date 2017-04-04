@@ -47,6 +47,13 @@ class Projects extends Controller
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
     }
 
+    public function showProject($pid) {
+        $customer = $this->model->getCustomer($pid);
+        require APP . 'views/_templates/header.php';
+        require APP . 'views/_templates/view_project.php';
+        require APP . 'views/_templates/footer.php';
+    }
+
     /**
      * ACTION: deleteSong
      * This method handles what happens when you move to http://yourproject/songs/deletesong

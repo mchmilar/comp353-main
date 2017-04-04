@@ -14,6 +14,15 @@ class Model
         }
     }
 
+    public function getCustomer($pid) {
+        $sql = "SELECT first_name, last_name 
+                FROM user natural join customer natural join purchase_project 
+                WHERE pid = $pid";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetch();
+    }
+
     /**
      * Get all customers from the database
      */

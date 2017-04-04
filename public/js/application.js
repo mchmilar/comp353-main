@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    $('#projects-table').DataTable();
+} );
+
 $(function() {
 
     // this is just a super-simple demo of JS

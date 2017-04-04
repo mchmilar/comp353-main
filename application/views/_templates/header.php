@@ -12,7 +12,7 @@ if (!$this) {
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>PHP MVC skeleton</title>
+    <title>FSC353_4</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -23,6 +23,8 @@ if (!$this) {
     <!-- CSS -->
     <link href="/public/css/style.css" rel="stylesheet">
     <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
+
 </head>
 <body>
     <!-- header -->
