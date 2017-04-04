@@ -47,7 +47,7 @@ class Projects extends Controller
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
     }
 
-    public function showProject($pid) {
+    public function view($pid) {
         $customer = $this->model->getCustomer($pid);
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/view_project.php';

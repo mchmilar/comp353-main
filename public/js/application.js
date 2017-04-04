@@ -1,5 +1,10 @@
 $(document).ready(function() {
     $('#projects-table').DataTable();
+
+    // Make table rows clickable as links
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
 } );
 
 $(function() {

@@ -35,8 +35,8 @@
             </thead>
             <tbody>
             <?php foreach ($projects as $project) { ?>
-                <tr>
-                    <td><?php if (isset($project->pid)) echo htmlspecialchars($project->pid, ENT_QUOTES, 'UTF-8'); ?></td>
+                <tr class="clickable-row" data-href='projects/view/<?php echo $project->pid ?>' >
+                    <td><?php echo $project->pid; ?></td>
                     <td><?php if (isset($project->price)) echo htmlspecialchars($project->price, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($project->first_name)) echo htmlspecialchars($project->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($project->last_name)) echo htmlspecialchars($project->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
