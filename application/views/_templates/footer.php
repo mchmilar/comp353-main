@@ -8,6 +8,12 @@
     <script>
         var url = "<?php echo URL_WITH_INDEX_FILE; ?>";
     </script>
+
+    <!-- parsley -->
+    <script src="/public/js/parsley.min.js"></script>
+
+    <!-- custom form validators -->
+    <script src="/public/js/validators.js"></script>
 	
 	<!-- bootstrap -->
 	<script src="/public/js/bootstrap.min.js"></script>
