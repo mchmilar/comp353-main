@@ -11,6 +11,22 @@
  */
 class Projects extends Controller
 {
+
+    function __construct()
+    {
+        $this->openDatabaseConnection();
+        $this->loadModel();
+    }
+
+    public function loadModel()
+    {
+        require APP . '/model/project.php';
+        require APP . '/model/customer.php';
+        // create new "model" (and pass the database connection)
+        $this->project = new Project($this->db);
+        $this->customer = new Customer($this->db);
+    }
+
     /**
      * PAGE: index
      * This method handles what happens when you move to http://yourproject/songs/index
@@ -18,8 +34,8 @@ class Projects extends Controller
     public function index()
     {
         // getting all songs and amount of songs
-        $projects = $this->model->getAllProjects();
-        $customers = $this->model->getAllCustomers();
+        $projects = $this->project->getAllProjects();
+        $customers = $this->customer->getAllCustomers();
 
        // load views. within the views we can echo out $songs and $amount_of_songs easily
         require APP . 'views/_templates/header.php';
@@ -37,14 +53,20 @@ class Projects extends Controller
      */
     public function addProject()
     {
+        $new_pid = 0;
         // if we have POST data to create a new song entry
         if (isset($_POST["submit_add_project"])) {
             // do addSong() in model/model.php
-            $this->model->addProject($_POST["price"], $_POST["name"]);
+            $new_pid = $this->project->addProject($_POST["name"]);
         }
 
         // where to go after song has been added
-        header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
+        if ($new_pid) {
+            header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $new_pid);
+        } else {
+            header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
+        }
+
     }
 
     public function view($pid) {

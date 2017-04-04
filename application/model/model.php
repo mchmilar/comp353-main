@@ -58,7 +58,7 @@ class Model
         return $pid->pid;
     }
 
-    public function addProject($price, $name)
+    public function addProject($name)
     {
         // get project id number to use
         $pid = $this->nextPID();
@@ -73,15 +73,16 @@ class Model
         $sql = "INSERT INTO project (price) VALUES (:price);
                 INSERT INTO purchase_project (pid, uid) VALUES (:pid, :uid);
                 ";
-
+        $default_price = 0;
         try {
             $query = $this->db->prepare($sql);
-            $parameters = array(':pid' => $pid, ':uid' => $uid, ':price' => $price);
+            $parameters = array(':pid' => $pid, ':uid' => $uid, ':price' => $default_price);
             $query->execute($parameters);
         } catch (PDOException $e) {
             echo $e->getMessage();
             die();
         }
+        return $pid;
     }
 
     /**

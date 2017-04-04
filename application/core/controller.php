@@ -28,7 +28,7 @@ class Controller
     /**
      * Open the database connection with the credentials from application/config/config.php
      */
-    private function openDatabaseConnection()
+    protected function openDatabaseConnection()
     {
         // set the (optional) options of the PDO connection. in this case, we set the fetch mode to
         // "objects", which means all results will be objects, like this: $result->user_name !
