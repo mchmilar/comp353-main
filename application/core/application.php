@@ -20,12 +20,7 @@ class Application
         // create array with URL parts in $url
 
         $this->getUrlWithoutModRewrite();
-        foreach ($this->url_params as $param) {
-            echo $param;
-        }
-        echo $this->url_action;
-        echo $this->url_controller;
-        return $this->url_controller;
+        
         // check for controller: no controller given ? then load start-page
         if (!$this->url_controller) {
             return $this->url_controller;
