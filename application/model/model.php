@@ -15,11 +15,21 @@ class Model
     }
 
     /**
+     * Get all customers from the database
+     */
+    public function getAllCustomers() {
+        $sql = "SELECT first_name, last_name FROM user natural join customer";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    /**
      * Get all songs from database
      */
-    public function getAllSongs()
+    public function getAllProjects()
     {
-        $sql = "SELECT id, artist, track, link FROM song";
+        $sql = "SELECT pid, price, first_name, last_name FROM project natural join purchase_project natural join user";
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -30,27 +40,39 @@ class Model
         return $query->fetchAll();
     }
 
-    /**
-     * Add a song to database
-     * TODO put this explanation into readme and remove it from here
-     * Please note that it's not necessary to "clean" our input in any way. With PDO all input is escaped properly
-     * automatically. We also don't use strip_tags() etc. here so we keep the input 100% original (so it's possible
-     * to save HTML and JS to the database, which is a valid use case). Data will only be cleaned when putting it out
-     * in the views (see the views for more info).
-     * @param string $artist Artist
-     * @param string $track Track
-     * @param string $link Link
-     */
-    public function addSong($artist, $track, $link)
-    {
-        $sql = "INSERT INTO song (artist, track, link) VALUES (:artist, :track, :link)";
+
+    public function nextPID() {
+        $sql = "SELECT max(pid) as pid FROM project";
         $query = $this->db->prepare($sql);
-        $parameters = array(':artist' => $artist, ':track' => $track, ':link' => $link);
+        $query->execute();
+        $pid = $query->fetch();
+        return $pid->pid;
+    }
 
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
-
+    public function addProject($price, $name)
+    {
+        // get project id number to use
+        $pid = $this->nextPID();
+        $name = explode(' ', $name);
+        $sql = "SELECT uid FROM user WHERE first_name = :first_name AND last_name = :last_name";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':first_name' => $name[0], ':last_name' => $name[1]);
         $query->execute($parameters);
+        $uid = $query->fetch()->uid;
+
+
+        $sql = "INSERT INTO project (price) VALUES (:price);
+                INSERT INTO purchase_project (pid, uid) VALUES (:pid, :uid);
+                ";
+
+        try {
+            $query = $this->db->prepare($sql);
+            $parameters = array(':pid' => $pid, ':uid' => $uid, ':price' => $price);
+            $query->execute($parameters);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
     }
 
     /**
