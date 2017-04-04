@@ -23,8 +23,33 @@
     </div>
 
     <!-- Tasks -->
-    <div>
-        <h2>Tasks:</h2>
+    <div class="row">
+        <!-- task list table -->
+        <div class="col-sm-6">
+            <h2>Tasks:</h2>
+            <table id="tasks-table" class="display">
+                <thead>
+                <tr>
+                    <td>Task ID</td>
+                    <td>Description</td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($tasks as $tsk) { ?>
+                    <tr class="clickable-row" >
+                        <td><?php echo $tsk->tid; ?></td>
+                        <td><?php echo $tsk->description; ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Create PO for selected task -->
+        <div class="col-sm-6">
+            
+        </div>
+
     </div>
 
 

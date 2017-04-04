@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#projects-table').DataTable();
+    $('#tasks-table').DataTable();
 
     // Make table rows clickable as links
     $(".clickable-row").click(function() {
