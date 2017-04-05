@@ -31,3 +31,8 @@ table {
 .clickable-row {
     cursor: pointer;
 }
+
+.invisible-panel {
+    display: none;
+    border-bottom: none;
+}
