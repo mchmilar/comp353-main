@@ -49,7 +49,7 @@ class PO
         $query = $this->db->prepare($sql);
         $query->execute();
         $po = $query->fetch();
-        return $po->poid;
+        return $po->poid +1;
     }
 
 }

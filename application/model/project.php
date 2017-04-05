@@ -36,7 +36,7 @@ class Project
         $query = $this->db->prepare($sql);
         $query->execute();
         $pid = $query->fetch();
-        return $pid->pid;
+        return $pid->pid + 1;
     }
 
     public function addProject($name)

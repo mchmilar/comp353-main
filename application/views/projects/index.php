@@ -4,7 +4,7 @@
     <!-- add project form -->
     <div>
         <h3>Add a project</h3>
-        <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>projects/addproject" method="POST">
+        <form action="<?php echo URL_WITH_INDEX_FILE; ?>projects/addproject" method="POST">
             <label>Name</label>
             <select name="name">
                 <?php foreach ($customers as $customer) {
