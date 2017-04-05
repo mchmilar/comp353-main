@@ -69,19 +69,21 @@
 
             <!-- Create PO for selected task -->
             <div class="row" id="quote-builder">
-                <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>quotes/addquote" method="POST">
+                <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>projects/addPO/<?php echo $pid ?>" method="POST">
                     <label>Purchase Order Type</label>
                     <select id="po-type-select" name="po-type">
                         <option value="material">Material</option>
                         <option value="labour">Labour</option>
                     </select>
+                    <label>Task</label>
+                    <input class="po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
+                    <input id="hidden-task-id" type="hidden" name="task-id">
+                    <input name="est_delivery" type="date">
                     <input type="submit" name="submit_add_project" value="Submit" />
 
                     <!-- Material PO -->
                     <div id="project-task-material-po" class="panel panel-default po-content invisible-panel">
                         <div class="panel-heading">
-                            <label>Task</label>
-                            <input class="po-task-type-textbox" type="text" value="Foundation" readonly>
                             <label>Supplier</label>
                             <select name="supplier">
                                 <?php foreach ($suppliers as $supplier) {
@@ -90,7 +92,10 @@
                                         . '</option>';
                                 } ?>
                             </select>
-
+                            <?php if(isset($_SESSION["addPoError"])) {
+                                echo $_SESSION["addPoError"];
+                                unset($_SESSION["addPoError"]);
+                            } ?>
                         </div>
                         <div class="panel-body">
                             <div id='material-collapse' role='tabpanel' aria-labelledby='material-heading'>
@@ -104,9 +109,9 @@
                                     </thead>
                                     <tbody id="material-po-table-body">
                                         <tr>
-                                            <td><input type="text"> </td>
-                                            <td><input type="text"> </td>
-                                            <td><input type="text"> </td>
+                                            <td><input name="description" type="text"> </td>
+                                            <td><input name="unit-price" type="text"> </td>
+                                            <td><input name="quantity" type="text"> </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -117,8 +122,6 @@
                     <!-- Contractor PO -->
                     <div id="project-task-contractor-po" class="panel panel-default po-content invisible-panel">
                         <div class="panel-heading">
-                            <label>Task</label>
-                            <input class="po-task-type-textbox" type="text" value="Foundation" readonly>
                             <label>Contractor</label>
                             <select name="contractor">
                                 <?php foreach ($contractors as $contractor) {

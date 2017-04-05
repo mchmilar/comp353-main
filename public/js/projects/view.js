@@ -30,6 +30,7 @@ function taskRowClick(selected) {
 
     // Display proper PO panel for selected task
     $(".po-task-type-textbox").val(task_name);
+    $("#hidden-task-id").val(tid);
 }
 
 function displayPoForm(selected) {

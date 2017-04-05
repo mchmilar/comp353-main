@@ -23,6 +23,7 @@ class POS extends Controller
     }
 
 
+
     public function ajaxPOsTaskProj($pid, $tid) {
         //echo $pid;
         //echo $tid;

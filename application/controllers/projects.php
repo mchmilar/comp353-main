@@ -25,14 +25,31 @@ class Projects extends Controller
         require APP . '/model/task.php';
         require APP . '/model/supplier.php';
         require APP . '/model/contractor.php';
+        require APP . '/model/po.php';
         // create new "model" (and pass the database connection)
         $this->project = new Project($this->db);
         $this->customer = new Customer($this->db);
         $this->task = new Task($this->db);
         $this->supplier = new Supplier($this->db);
         $this->contractor = new Contractor($this->db);
+        $this->po = new PO($this->db);
     }
 
+    public function addPO($pid) {
+        if ($_POST['po-type'] === 'material') {
+            $desc = $_POST['description'];
+            $price = $_POST['unit-price'];
+            $qty = $_POST['quantity'];
+
+            if ($desc != null && $price != null && $qty != null) {
+                $this->po->createPO();
+            } else {
+                $_SESSION["addPoError"] = "Incomplete PO";
+                //die(header("location:" . URL_WITH_INDEX_FILE . 'projects/view/' . $pid . "?addPoFailed=true&reason=incomplete"));
+            }
+        }
+        header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
+    }
 
     public function index()
     {
