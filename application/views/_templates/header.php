@@ -24,6 +24,7 @@ if (!$this) {
     <link href="/public/css/style.css" rel="stylesheet">
     <link href="/public/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
 <body>

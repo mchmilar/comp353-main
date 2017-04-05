@@ -22,6 +22,30 @@ class POS extends Controller
         $this->task = new Task($this->db);
     }
 
+    public function addPO($pid) {
+        $taskId = $_POST['task-id'];
+        $estDelivery = $_POST['est-delivery'];
+        $poDesc = $_POST['po-description'];
+
+        if ($_POST['po-type'] === 'material') {
+            $desc = $_POST['description'];
+            $price = $_POST['unit-price'];
+            $qty = $_POST['quantity'];
+
+            if ($desc != null
+                && $price != null
+                && $qty != null
+                && $taskId != null
+                && $estDelivery != null
+                && $poDesc != null) {
+                $poid = $this->po->createPO($poDesc, $estDelivery);
+            } else {
+                $_SESSION["addPoError"] = "Incomplete PO";
+                //die(header("location:" . URL_WITH_INDEX_FILE . 'projects/view/' . $pid . "?addPoFailed=true&reason=incomplete"));
+            }
+        }
+        header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
+    }
 
 
     public function ajaxPOsTaskProj($pid, $tid) {

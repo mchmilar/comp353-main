@@ -69,17 +69,34 @@
 
             <!-- Create PO for selected task -->
             <div class="row" id="quote-builder">
-                <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>projects/addPO/<?php echo $pid ?>" method="POST">
-                    <label>Purchase Order Type</label>
-                    <select id="po-type-select" name="po-type">
-                        <option value="material">Material</option>
-                        <option value="labour">Labour</option>
-                    </select>
-                    <label>Task</label>
-                    <input class="po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
-                    <input id="hidden-task-id" type="hidden" name="task-id">
-                    <input name="est_delivery" type="date">
-                    <input type="submit" name="submit_add_project" value="Submit" />
+                <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>pos/addPO/<?php echo $pid ?>" method="POST">
+
+                    <!-- Type -->
+                    <div class="form-group">
+                        <label>Purchase Order Type</label>
+                        <select id="po-type-select" name="po-type">
+                            <option value="material">Material</option>
+                            <option value="labour">Labour</option>
+                        </select>
+                    </div>
+
+                    <!-- Task -->
+                    <div class="form-group">
+                        <label>Task</label>
+                        <input class="po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
+                        <input id="hidden-task-id" type="hidden" name="task-id">
+                    </div>
+
+                    <!-- Estimated Delivery -->
+                    <div class="form-group">
+                        <label>Estimated Delivery</label><input type="text" id="est-delivery" name="est-delivery">
+                    </div>
+
+                    <!-- PO Description -->
+                    <div class="form-group">
+                        <label>PO Description</label>
+                        <input name="po-description" type="text">
+                    </div>
 
                     <!-- Material PO -->
                     <div id="project-task-material-po" class="panel panel-default po-content invisible-panel">
@@ -144,6 +161,11 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- submit -->
+                    <div class="form-group">
+                        <input type="submit" name="submit_add_project" value="Submit" />
                     </div>
                 </form>
             </div>

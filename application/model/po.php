@@ -30,4 +30,26 @@ class PO
         return $query->fetchAll();
     }
 
+    public function createPO($poDesc, $estDelivery) {
+        // get po id number to use
+        $poid = $this->nextPOID();
+        $today = date("Y-m-d");
+        $sql = "INSERT INTO po (poid, purchase_date, description, est_delivery)
+                VALUES (:poid, :purchase_date, :description, :est_delivery)";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid);
+     //   echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+
+        return $poid;
+    }
+
+    public function nextPOID() {
+        $sql = "SELECT max(poid) as poid FROM po";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        $po = $query->fetch();
+        return $po->poid;
+    }
+
 }

@@ -6,6 +6,9 @@ $(document).ready(function() {
 
     displayPoForm("#po-type-select");
     taskRowClick("#tasks-table > tbody > tr:nth-child(1)");
+    $( "#est-delivery" ).datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
 } );
 
 // Display correct PO form in project view
