@@ -30,7 +30,6 @@ class POS extends Controller
         if (isset($pid, $tid)) {
             $pos = $this->po->getPOsTaskProj($pid, $tid);
             foreach($pos as $po) {
-                echo "hi";
                 $table .= "<tr>";
                 $table .= "<td>" . $po->poid . "</td>";
                 $table .= "<td>" . $po->purchase_date . "</td>";

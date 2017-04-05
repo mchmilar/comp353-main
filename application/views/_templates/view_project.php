@@ -39,7 +39,7 @@
                 <?php foreach ($tasks as $tsk) { ?>
                     <tr class="task-row">
                         <td class="tid-col"><?php echo $tsk->tid; ?></td>
-                        <td><?php echo $tsk->description; ?></td>
+                        <td class="task-name-col"><?php echo $tsk->description; ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -80,6 +80,8 @@
                     <!-- Material PO -->
                     <div id="project-task-material-po" class="panel panel-default po-content invisible-panel">
                         <div class="panel-heading">
+                            <label>Task</label>
+                            <input class="po-task-type-textbox" type="text" value="Foundation" readonly>
                             <label>Supplier</label>
                             <select name="supplier">
                                 <?php foreach ($suppliers as $supplier) {
@@ -88,6 +90,7 @@
                                         . '</option>';
                                 } ?>
                             </select>
+
                         </div>
                         <div class="panel-body">
                             <div id='material-collapse' role='tabpanel' aria-labelledby='material-heading'>
@@ -99,6 +102,13 @@
                                             <th>Quantity</th>
                                         </tr>
                                     </thead>
+                                    <tbody id="material-po-table-body">
+                                        <tr>
+                                            <td><input type="text"> </td>
+                                            <td><input type="text"> </td>
+                                            <td><input type="text"> </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -107,6 +117,8 @@
                     <!-- Contractor PO -->
                     <div id="project-task-contractor-po" class="panel panel-default po-content invisible-panel">
                         <div class="panel-heading">
+                            <label>Task</label>
+                            <input class="po-task-type-textbox" type="text" value="Foundation" readonly>
                             <label>Contractor</label>
                             <select name="contractor">
                                 <?php foreach ($contractors as $contractor) {
@@ -122,8 +134,8 @@
                                     <thead>
                                     <tr>
                                         <th>Description</th>
-                                        <th>Unit Price</th>
-                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>Hours</th>
                                     </tr>
                                     </thead>
                                 </table>
