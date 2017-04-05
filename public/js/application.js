@@ -1,27 +1,3 @@
-$(document).ready(function() {
-    $('#projects-table').DataTable();
-    $('#tasks-table').DataTable();
-
-    // Make table rows clickable as links
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-
-    // Display correct PO form in project view
-    $("#po-type-select").change(function() {
-        var poType = $( this ).find(":selected").text();
-        if (poType.toLowerCase() === 'material') {
-            // display material po form
-            $("#project-task-contractor-po").addClass("invisible-panel");
-            $("#project-task-material-po").removeClass("invisible-panel");
-        } else {
-            // display contractor po form
-            $("#project-task-contractor-po").removeClass("invisible-panel");
-            $("#project-task-material-po").addClass("invisible-panel");
-        }
-    });
-
-} );
 
 $(function() {
 

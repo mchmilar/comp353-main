@@ -5,6 +5,7 @@
     <!-- Customer info -->
     <div>
         <h2>Customer Name: <?php echo $customer->first_name . ' ' . $customer->last_name ?></h2>
+
     </div>
 
     <!-- Expected completion date -->
@@ -36,8 +37,8 @@
                 </thead>
                 <tbody>
                 <?php foreach ($tasks as $tsk) { ?>
-                    <tr >
-                        <td><?php echo $tsk->tid; ?></td>
+                    <tr class="task-row">
+                        <td class="tid-col"><?php echo $tsk->tid; ?></td>
                         <td><?php echo $tsk->description; ?></td>
                     </tr>
                 <?php } ?>
@@ -45,11 +46,28 @@
             </table>
         </div>
 
-        <!-- Create PO for selected task -->
+
         <div class="col-sm-6">
+            <!-- Display current PO's for selected task -->
             <div class="row" id="quote-list">
-                AAAAA
+                <table id="quote-list-table" class="table table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>PO ID</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Estimated Delivery</th>
+                        <th>Actual Delivery</th>
+                        <th>Total Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody id="quote-list-table-body">
+
+                    </tbody>
+                </table>
             </div>
+
+            <!-- Create PO for selected task -->
             <div class="row" id="quote-builder">
                 <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>quotes/addquote" method="POST">
                     <label>Purchase Order Type</label>
@@ -120,3 +138,7 @@
 
 
 </div>
+
+<script>
+    var pid = "<?php echo $pid; ?>";
+</script>
