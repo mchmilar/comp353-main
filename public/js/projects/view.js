@@ -2,7 +2,7 @@
  * Created by markc on 4/4/2017.
  */
 $(document).ready(function() {
-    $('#tasks-table').DataTable();
+    //$('#tasks-table').DataTable();
 
     displayPoForm("#po-type-select");
     taskRowClick("#tasks-table > tbody > tr:nth-child(1)");
@@ -25,15 +25,28 @@ $('.task-row').on('click', function(){
 function taskRowClick(selected) {
     var tid = $( selected ).find('.tid-col').text();
     var task_name = $( selected ).find('.task-name-col').text();
-    // Get PO's for selected task
-    $.get(url +"pos/ajaxPOsTaskProj/" + pid + "/" + tid,
-        function(returnedData){
-            $("#quote-list-table-body").html(returnedData);
-        });
+    $("#tasks-table > tbody > tr").each(function() {
+        $(this).removeClass("selected-task");
+    });
+    $( selected ).addClass("selected-task");
+    $(".po-content").fadeOut({
+        duration: 200,
+        done: function() {
+            // Get PO's for selected task
+            $.get(url +"pos/ajaxPOsTaskProj/" + pid + "/" + tid,
+                function(returnedData){
+                    $("#quote-list-table-body").html(returnedData);
+                });
 
-    // Display proper PO panel for selected task
-    $(".po-task-type-textbox").val(task_name);
-    $("#hidden-task-id").val(tid);
+            // Display proper PO panel for selected task
+            $(".po-task-type-textbox").val(task_name);
+            $(".task-name").html(task_name);
+            $("#hidden-task-id").val(tid);
+            $(".po-content").fadeIn(200);
+        }
+    });
+
+
 }
 
 function displayPoForm(selected) {

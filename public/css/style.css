@@ -1,32 +1,91 @@
 /* Demo CSS */
-
+/*@font-face {*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*src: url(https://fonts.googleapis.com/css?family=Roboto:500);*/
+/*}*/
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+.navbar {
+    border-radius: 0px;
+}
+
+.navbar-default.damavand-navbar {
+    font-family: 'Roboto', sans-serif;
+    background-color: #535353;
+    margin-bottom: 0px;
+    border: none;
+}
+.navbar-default.damavand-navbar .navbar-brand {
+    font-family: 'Roboto', sans-serif;
+    color: #FFF;
+}
+
+.navbar-default.damavand-navbar .navbar-nav>li>a {
+    font-family: 'Roboto', sans-serif;
+    color: #FFF;
+}
+
+.navbar-default.damavand-navbar .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    background-color: #E3F1E3;
+    color: #535353;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.view-project-subheader {
+    background-color: #E3F1E3;
+}
+
+.task-list {
+    background-color: #FFF;
+    color: #535353;
+    height: 100vh;
+    font-weight: 600;
+    padding: 0px;
+}
+
+.task-list td {
+    cursor: pointer;
+}
+.task-list h5 {
+    padding-left: 50px;
+    text-transform: uppercase;
+}
+.task-list td.task-name-col {
+    padding-left: 50px;
+}
+
+.task-list td:hover {
+    background-color: #F8FAF8;
+}
+
+.borderless td, .borderless th {
+    border: 0px !important;
+}
+
+.po-list {
+    background-color: #F8FAF8;
+    height: 100vh;
 }
 
 body {
     font-size: 15px;
+
+}
+
+.main-container {
+    box-shadow: 0px 0px 1px 0px #afafaf;
+    height: 100vh;
 }
 
 table {
     font-size: 13px;
 }
 
-.container {
-    /* border: 3px solid #000; */
-    padding: 20px;
-    margin: 10px;
-}
 
-.where-are-we-box {
-    position: relative;
-    left: -20px;
-    top: -20px;
-    background-color: #bbb;
-    padding: 10px 15px;
-    display: inline-block;
-}
 
 .clickable-row {
     cursor: pointer;
@@ -35,4 +94,28 @@ table {
 .invisible-panel {
     display: none;
     border-bottom: none;
+}
+
+.po-panel {
+    background-color: #F8FAF8;
+    height: 100vh;
+}
+
+.po-content {
+    background-color: #fff;
+}
+
+.po-content-label {
+    text-transform: uppercase;
+    margin-top: -15px;
+}
+
+#project-po-list {
+    margin-bottom: 40px;
+    margin-top: 40px;
+    height: 30vh;
+}
+
+.selected-task {
+    background-color: #F8FAF8
 }
