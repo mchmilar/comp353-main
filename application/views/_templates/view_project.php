@@ -77,8 +77,8 @@
                         <div class="form-group">
                             <div class="col-xs-3">
                                 <label>PO Type</label>
-                                <select id="po-type-select" name="po-type" class="form-control">
-                                    <option value="material">Material</option>
+                                <select id="po-type-select" name="po-type" class="form-control input-sm">
+                                    <option value="supply">Supply</option>
                                     <option value="labour">Labour</option>
                                 </select>
                             </div>
@@ -86,29 +86,29 @@
                             <!-- Task -->
                             <div class="col-xs-3">
                                 <label>Task</label>
-                                <input id="task-desc-input" class="form-control po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
+                                <input id="task-desc-input" class="form-control input-sm po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
                                 <input id="hidden-task-id" type="hidden" name="task-id">
                             </div>
 
                             <!-- Est. Delivery -->
                             <div class="col-xs-3">
-                                <label>Est Delivery</label><input type="text" id="est-delivery" name="est-delivery" class="form-control">
+                                <label>Est Delivery</label><input type="text" id="est-delivery" name="est-delivery" class="form-control input-sm">
                             </div>
 
                             <!-- PO Description -->
                             <div class="col-xs-3">
                                 <label>PO Description</label>
-                                <input id="po-description" name="po-description" type="text" class="form-control">
+                                <input id="po-description" name="po-description" type="text" class="form-control input-sm">
                             </div>
                         </div>
 
 
-                        <!-- Material Line Items -->
-                        <div id="project-task-material-po" class="invisible-panel">
+                        <!-- supply Line Items -->
+                        <div id="project-task-supply-po" class="invisible-panel">
                             <div class="form-group">
                                 <div class="col-xs-3">
                                     <label>Supplier</label>
-                                    <select name="supplier" class="form-control">
+                                    <select name="supplier" class="form-control input-sm">
                                         <?php foreach ($suppliers as $supplier) {
                                             echo '<option value="' . $supplier->name .'">'
                                                 . $supplier->name
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
 
-                                <table id="material-po-table" class="table table-striped table-condensed">
+                                <table id="supply-po-table" class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
                                         <th>MID</th>
@@ -131,12 +131,12 @@
                                         <th>Quantity</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="material-po-table-body">
+                                    <tbody id="supply-po-table-body">
                                     <tr>
-                                        <td><input name="mid" type="text" class="form-control"> </td>
-                                        <td><input name="description" type="text" class="form-control"> </td>
-                                        <td><input name="unit-price" type="text" class="form-control"> </td>
-                                        <td><input name="quantity" type="text" class="form-control"> </td>
+                                        <td><input name="mid" type="text" class="form-control input-sm"> </td>
+                                        <td><input name="description" type="text" class="form-control input-sm"> </td>
+                                        <td><input name="unit-price" type="text" class="form-control input-sm"> </td>
+                                        <td><input name="quantity" type="text" class="form-control input-sm"> </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -146,12 +146,12 @@
                             </div>
                         </div>
 
-                        <!-- Contractor Line Items -->
-                        <div id="project-task-contractor-po" class="invisible-panel">
+                        <!-- labour Line Items -->
+                        <div id="project-task-labour-po" class="invisible-panel">
                             <div class="form-group">
                                 <div class="col-xs-4">
                                     <label>Contractor</label>
-                                    <select name="contractor" class="form-control">
+                                    <select name="contractor" class="form-control input-sm">
                                         <?php foreach ($contractors as $contractor) {
                                             echo '<option value="' . $contractor->org_name .'">'
                                                 . $contractor->org_name
@@ -162,8 +162,8 @@
 
                             </div>
                             <div>
-                                <div id='contractor-collapse' role='tabpanel' aria-labelledby='contractor-heading'>
-                                    <table id="material-po-table" class="table table-striped table-condensed">
+                                <div id='labour-collapse' role='tabpanel' aria-labelledby='labour-heading'>
+                                    <table id="supply-po-table" class="table table-striped table-condensed">
                                         <thead>
                                         <tr>
                                             <th>Description</th>
@@ -172,9 +172,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            <td><input name="description" type="text" class="form-control"> </td>
-                                            <td><input name="rate" type="text" class="form-control"> </td>
-                                            <td><input name="hours" type="text" class="form-control"> </td>
+                                            <td><input name="description" type="text" class="form-control input-sm"> </td>
+                                            <td><input name="rate" type="text" class="form-control input-sm"> </td>
+                                            <td><input name="hours" type="text" class="form-control input-sm"> </td>
                                         </tbody>
                                     </table>
                                 </div>

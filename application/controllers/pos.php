@@ -17,11 +17,13 @@ class POS extends Controller
         require APP . '/model/project.php';
         require APP . '/model/task.php';
         require APP . '/model/supplier.php';
+        require APP . '/model/contractor.php';
         // create new "model" (and pass the database connection)
         $this->po = new PO($this->db);
         $this->project = new Project($this->db);
         $this->task = new Task($this->db);
         $this->supplier = new Supplier($this->db);
+        $this->contractor = new Contractor($this->db);
     }
 
     public function addPO($pid) {
@@ -41,43 +43,13 @@ class POS extends Controller
         // unset the already used _POST key/value pairs
         unset($_POST['task-id'], $_POST['est-delivery'], $_POST['po-description'], $_POST['task-description'], $_POST['po-type']);
 
-        if ($poType === 'material') {
-            // create 2x2 array of line item info
+        if ($poType === 'supply') {
             $supplier = $_POST['supplier'];
             unset($_POST['supplier']);
 
             // Turn POST members into indexed array
             $indexed_post = array_values($_POST);
-            $lineItems = $this->validateLineItems($indexed_post, 4);
-            //$lineItems = array();
-
-            // Put each line item into its own array, nested in the lineItems array
-            // We also check for line completeness
-            // If all parts of the line are empty and it's not we ignore the line and move on
-            // If some items are empty, die with error
-            //
-            // TODO: Data validation in here?
-            /*for ($i = 0; $i < count($indexed_post) - 3; $i += 4) {
-                $nullCount = 0;
-                if ($indexed_post[$i] == null) $nullCount++;
-                if ($indexed_post[$i+1] == null) $nullCount++;
-                if ($indexed_post[$i+2] == null) $nullCount++;
-                if ($indexed_post[$i+3] == null) $nullCount++;
-
-                if ($nullCount == 4) {
-                    continue;
-                } elseif ($nullCount > 0 && $nullCount < 4) {
-                    // Die with error
-                    $_SESSION["addPoError"] = "Incomplete PO";
-                    die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
-                }
-
-                array_push($lineItems, array(
-                    'mid' => $indexed_post[$i],
-                    'description' => $indexed_post[$i+1],
-                    'price' => $indexed_post[$i+2],
-                    'qty' => $indexed_post[$i+3]));
-            }*/
+            $lineItems = $this->validateLineItems($indexed_post, 4, $pid);
 
             /////////////////////////////////////////////////////
             // We have verified our input data, perform inserts//
@@ -91,11 +63,31 @@ class POS extends Controller
             foreach ($lineItems as $line) {
                 $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2], $line[3]);
             }
+        } elseif ($poType === 'labour') {
+            $contractor = $_POST['contractor'];
+            unset($_POST['contractor']);
+
+            // Turn POST members into indexed array
+            $indexed_post = array_values($_POST);
+            $lineItems = $this->validateLineItems($indexed_post, 3, $pid);
+
+            /////////////////////////////////////////////////////
+            // We have verified our input data, perform inserts//
+            /////////////////////////////////////////////////////
+
+            // Create PO and get its id
+            $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
+
+            // Insert each line item into supply
+            $sid = $this->contractor->getContractorIdFromName($contractor);
+            foreach ($lineItems as $line) {
+                $this->po->addLabourLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2]);
+            }
         }
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
     }
 
-    private function validateLineItems($indexed_post, $items_per_line) {
+    private function validateLineItems($indexed_post, $items_per_line, $pid) {
         $lineItems = array();
 
         // Put each line item into its own array, nested in the lineItems array
@@ -132,7 +124,10 @@ class POS extends Controller
         //echo $tid;
         $table = "";
         if (isset($pid, $tid)) {
-            $pos = $this->po->getPOsTaskProj($pid, $tid);
+            $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
+            $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
+            $pos = array_merge($supply_pos, $labour_pos);
+
             foreach($pos as $po) {
                 $table .= "<tr>";
                 $table .= "<td>" . $po->poid . "</td>";
@@ -140,6 +135,13 @@ class POS extends Controller
                 $table .= "<td>" . $po->description . "</td>";
                 $table .= "<td>" . $po->est_delivery . "</td>";
                 $table .= "<td>" . $po->actual_delivery . "</td>";
+                if ($po->po_type === 'supply') {
+                    $total_cost = $this->po->totalSupplyCost($po->poid);
+                    $table .= "<td>" . $total_cost . "</td>";
+                } elseif ($po->po_type === 'labour') {
+                    $total_cost = $this->po->totalLabourCost($po->poid);
+                    $table .= "<td>" . $total_cost . "</td>";
+                }
                 $table .= "</tr>";
             }
         } else {

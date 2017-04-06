@@ -14,6 +14,16 @@ class Contractor
         }
     }
 
+    public function getContractorIdFromName($name) {
+        $sql = "SELECT cid 
+                FROM contractor 
+                WHERE org_name = :org_name";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':org_name' => $name);
+        $query->execute($parameters);
+        return $query->fetch()->cid;
+    }
+
     public function getContractor($cid) {
         $sql = "SELECT * 
                 FROM contractor 

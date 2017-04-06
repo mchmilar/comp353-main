@@ -38,36 +38,36 @@ function taskRowClick(selected) {
 
 function displayPoForm(selected) {
     var poType = $( selected ).find(":selected").text();
-    if (poType.toLowerCase() === 'material') {
-        // display material po form
-        $("#project-task-contractor-po").addClass("invisible-panel");
-        $("#project-task-material-po").removeClass("invisible-panel");
+    if (poType.toLowerCase() === 'supply') {
+        // display supply po form
+        $("#project-task-labour-po").addClass("invisible-panel");
+        $("#project-task-supply-po").removeClass("invisible-panel");
 
-        // Disable contractor inputs
-        var inputs = $("#project-task-contractor-po :input");
+        // Disable labour inputs
+        var inputs = $("#project-task-labour-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', true);
         });
 
-        // Enable material inputs
-        var inputs = $("#project-task-material-po :input");
+        // Enable supply inputs
+        var inputs = $("#project-task-supply-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', false);
         });
 
     } else {
-        // display contractor po form
-        $("#project-task-contractor-po").removeClass("invisible-panel");
-        $("#project-task-material-po").addClass("invisible-panel");
+        // display labour po form
+        $("#project-task-labour-po").removeClass("invisible-panel");
+        $("#project-task-supply-po").addClass("invisible-panel");
 
-        // Disable material inputs
-        var inputs = $("#project-task-material-po :input");
+        // Disable supply inputs
+        var inputs = $("#project-task-supply-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', true);
         });
 
-        // Enable contractor inputs
-        var inputs = $("#project-task-contractor-po :input");
+        // Enable labour inputs
+        var inputs = $("#project-task-labour-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', false);
         });
