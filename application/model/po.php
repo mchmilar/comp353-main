@@ -25,9 +25,10 @@ class PO
     }
 
     public function getPOsTaskProj($pid, $tid) {
-        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery FROM po, supply where tid = :tid and pid = :pid";
+        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery FROM po, supply where po.poid = supply.poid and tid = :tid and pid = :pid";
         $query = $this->db->prepare($sql);
         $parameters = array(':pid' => $pid, ':tid' => $tid);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
 
         // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
