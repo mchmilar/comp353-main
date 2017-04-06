@@ -48,8 +48,8 @@ class POS extends Controller
 
             // Turn POST members into indexed array
             $indexed_post = array_values($_POST);
-
-            $lineItems = array();
+            $lineItems = $this->validateLineItems($indexed_post, 4);
+            //$lineItems = array();
 
             // Put each line item into its own array, nested in the lineItems array
             // We also check for line completeness
@@ -57,7 +57,7 @@ class POS extends Controller
             // If some items are empty, die with error
             //
             // TODO: Data validation in here?
-            for ($i = 0; $i < count($indexed_post) - 3; $i += 4) {
+            /*for ($i = 0; $i < count($indexed_post) - 3; $i += 4) {
                 $nullCount = 0;
                 if ($indexed_post[$i] == null) $nullCount++;
                 if ($indexed_post[$i+1] == null) $nullCount++;
@@ -77,22 +77,53 @@ class POS extends Controller
                     'description' => $indexed_post[$i+1],
                     'price' => $indexed_post[$i+2],
                     'qty' => $indexed_post[$i+3]));
-            }
+            }*/
 
             /////////////////////////////////////////////////////
             // We have verified our input data, perform inserts//
             /////////////////////////////////////////////////////
 
             // Create PO and get its id
-            $poid = $this->po->createPO($poDesc, $estDelivery);
+            $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
 
             // Insert each line item into supply
             $sid = $this->supplier->getSupplierIdFromName($supplier);
             foreach ($lineItems as $line) {
-                $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line['mid'], $line['description'], $line['price'], $line['qty']);
+                $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2], $line[3]);
             }
         }
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
+    }
+
+    private function validateLineItems($indexed_post, $items_per_line) {
+        $lineItems = array();
+
+        // Put each line item into its own array, nested in the lineItems array
+        // We also check for line completeness
+        // If all parts of the line are empty and it's not we ignore the line and move on
+        // If some items are empty, die with error
+        //
+        // TODO: Data validation in here?
+        for ($i = 0; $i < count($indexed_post) - ($items_per_line - 1); $i += $items_per_line) {
+            $nullCount = 0;
+            for ($j = $i; $j < $i + $items_per_line; $j++) {
+                if ($indexed_post[$j] == null) $nullCount++;
+            }
+
+            if ($nullCount == $items_per_line) {
+                continue;
+            } elseif ($nullCount > 0 && $nullCount < $items_per_line) {
+                // Die with error
+                $_SESSION["addPoError"] = "Incomplete PO";
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
+            }
+            $line = array();
+            for ($j = $i; $j < $i + $items_per_line; $j++) {
+                array_push($line, $indexed_post[$j]);
+            }
+            array_push($lineItems, $line);
+        }
+        return $lineItems;
     }
 
 

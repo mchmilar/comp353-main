@@ -133,7 +133,7 @@
                                     </thead>
                                     <tbody id="material-po-table-body">
                                     <tr>
-                                        <td class="col-xs-2"><input name="mid" type="text" class="form-control"> </td>
+                                        <td><input name="mid" type="text" class="form-control"> </td>
                                         <td><input name="description" type="text" class="form-control"> </td>
                                         <td><input name="unit-price" type="text" class="form-control"> </td>
                                         <td><input name="quantity" type="text" class="form-control"> </td>
@@ -148,15 +148,18 @@
 
                         <!-- Contractor Line Items -->
                         <div id="project-task-contractor-po" class="invisible-panel">
-                            <div>
-                                <label>Contractor</label>
-                                <select name="contractor">
-                                    <?php foreach ($contractors as $contractor) {
-                                        echo '<option value="' . $contractor->org_name .'">'
-                                            . $contractor->org_name
-                                            . '</option>';
-                                    } ?>
-                                </select>
+                            <div class="form-group">
+                                <div class="col-xs-4">
+                                    <label>Contractor</label>
+                                    <select name="contractor" class="form-control">
+                                        <?php foreach ($contractors as $contractor) {
+                                            echo '<option value="' . $contractor->org_name .'">'
+                                                . $contractor->org_name
+                                                . '</option>';
+                                        } ?>
+                                    </select>
+                                </div>
+
                             </div>
                             <div>
                                 <div id='contractor-collapse' role='tabpanel' aria-labelledby='contractor-heading'>
@@ -168,6 +171,11 @@
                                             <th>Hours</th>
                                         </tr>
                                         </thead>
+                                        <tbody>
+                                            <td><input name="description" type="text" class="form-control"> </td>
+                                            <td><input name="rate" type="text" class="form-control"> </td>
+                                            <td><input name="hours" type="text" class="form-control"> </td>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
