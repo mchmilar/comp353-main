@@ -14,9 +14,16 @@ class PO
         }
     }
 
-    /**
-     * Get all songs from database
-     */
+    public function addSupplyLine($poid, $sid, $tid, $pid, $mid, $desc, $uPrice, $qty) {
+        $sql = "INSERT INTO supply
+                VALUES (:poid, :mid, :sid, :tid, :pid, :desc, :ucost, :qty)";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':poid' => $poid, ':mid' => $mid, ':sid' => $sid,
+                            ':tid' => $tid, ':pid' => $pid, ':desc' => $desc,
+                            ':ucost' => $uPrice, ':qty' => $qty);
+        $query->execute($parameters);
+    }
+
     public function getPOsTaskProj($pid, $tid) {
         $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery FROM po, supply where tid = :tid and pid = :pid";
         $query = $this->db->prepare($sql);

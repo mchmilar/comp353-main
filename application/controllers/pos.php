@@ -16,32 +16,80 @@ class POS extends Controller
         require APP . '/model/po.php';
         require APP . '/model/project.php';
         require APP . '/model/task.php';
+        require APP . '/model/supplier.php';
         // create new "model" (and pass the database connection)
         $this->po = new PO($this->db);
         $this->project = new Project($this->db);
         $this->task = new Task($this->db);
+        $this->supplier = new Supplier($this->db);
     }
 
     public function addPO($pid) {
         $taskId = $_POST['task-id'];
         $estDelivery = $_POST['est-delivery'];
         $poDesc = $_POST['po-description'];
+        $poType = $_POST['po-type'];
+        $taskDesc = $_POST['task-description'];
 
-        if ($_POST['po-type'] === 'material') {
-            $desc = $_POST['description'];
-            $price = $_POST['unit-price'];
-            $qty = $_POST['quantity'];
+        // Check for incomplete PO
+        // If it is, die with error
+        if ($taskId == null || $estDelivery == null || $poDesc == null) {
+            $_SESSION["addPoError"] = "Incomplete PO";
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
+        }
 
-            if ($desc != null
-                && $price != null
-                && $qty != null
-                && $taskId != null
-                && $estDelivery != null
-                && $poDesc != null) {
-                $poid = $this->po->createPO($poDesc, $estDelivery);
-            } else {
-                $_SESSION["addPoError"] = "Incomplete PO";
-                //die(header("location:" . URL_WITH_INDEX_FILE . 'projects/view/' . $pid . "?addPoFailed=true&reason=incomplete"));
+        // unset the already used _POST key/value pairs
+        unset($_POST['task-id'], $_POST['est-delivery'], $_POST['po-description'], $_POST['task-description'], $_POST['po-type']);
+
+        if ($poType === 'material') {
+            // create 2x2 array of line item info
+            $supplier = $_POST['supplier'];
+            unset($_POST['supplier']);
+
+            // Turn POST members into indexed array
+            $indexed_post = array_values($_POST);
+
+            $lineItems = array();
+
+            // Put each line item into its own array, nested in the lineItems array
+            // We also check for line completeness
+            // If all parts of the line are empty and it's not we ignore the line and move on
+            // If some items are empty, die with error
+            //
+            // TODO: Data validation in here?
+            for ($i = 0; $i < count($indexed_post) - 3; $i += 4) {
+                $nullCount = 0;
+                if ($indexed_post[$i] == null) $nullCount++;
+                if ($indexed_post[$i+1] == null) $nullCount++;
+                if ($indexed_post[$i+2] == null) $nullCount++;
+                if ($indexed_post[$i+3] == null) $nullCount++;
+
+                if ($nullCount == 4) {
+                    continue;
+                } elseif ($nullCount > 0 && $nullCount < 4) {
+                    // Die with error
+                    $_SESSION["addPoError"] = "Incomplete PO";
+                    die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
+                }
+
+                array_push($lineItems, array(
+                    'mid' => $indexed_post[$i],
+                    'description' => $indexed_post[$i+1],
+                    'price' => $indexed_post[$i+2],
+                    'qty' => $indexed_post[$i+3]));
+            }
+
+            /////////////////////////////////////////////////////
+            // We have verified our input data, perform inserts//
+            /////////////////////////////////////////////////////
+
+            // Create PO and get its id
+            $poid = $this->po->createPO($poDesc, $estDelivery);
+
+            // Insert each line item into supply
+            $sid = $this->supplier->getSupplierIdFromName($supplier);
+            foreach ($lineItems as $line) {
+                $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line['mid'], $line['description'], $line['price'], $line['qty']);
             }
         }
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);

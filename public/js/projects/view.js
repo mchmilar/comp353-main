@@ -42,9 +42,34 @@ function displayPoForm(selected) {
         // display material po form
         $("#project-task-contractor-po").addClass("invisible-panel");
         $("#project-task-material-po").removeClass("invisible-panel");
+
+        // Disable contractor inputs
+        var inputs = $("#project-task-contractor-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+        // Enable material inputs
+        var inputs = $("#project-task-material-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', false);
+        });
+
     } else {
         // display contractor po form
         $("#project-task-contractor-po").removeClass("invisible-panel");
         $("#project-task-material-po").addClass("invisible-panel");
+
+        // Disable material inputs
+        var inputs = $("#project-task-material-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+        // Enable contractor inputs
+        var inputs = $("#project-task-contractor-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', false);
+        });
     }
 }

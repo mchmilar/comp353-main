@@ -50,124 +50,134 @@
         <div class="col-sm-6">
             <!-- Display current PO's for selected task -->
             <div class="row" id="quote-list">
-                <table id="quote-list-table" class="table table-striped table-condensed">
-                    <thead>
-                    <tr>
-                        <th>PO ID</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Estimated Delivery</th>
-                        <th>Actual Delivery</th>
-                        <th>Total Cost</th>
-                    </tr>
-                    </thead>
-                    <tbody id="quote-list-table-body">
+                <div class="col-sm-12">
+                    <table id="quote-list-table" class="table table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>PO ID</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Estimated Delivery</th>
+                            <th>Actual Delivery</th>
+                            <th>Total Cost</th>
+                        </tr>
+                        </thead>
+                        <tbody id="quote-list-table-body">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Create PO for selected task -->
             <div class="row" id="quote-builder">
-                <form data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>pos/addPO/<?php echo $pid ?>" method="POST">
+                    <form id="po-form" data-parsley-validate action="<?php echo URL_WITH_INDEX_FILE; ?>pos/addPO/<?php echo $pid ?>" method="POST">
 
-                    <!-- Type -->
-                    <div class="form-group">
-                        <label>Purchase Order Type</label>
-                        <select id="po-type-select" name="po-type">
-                            <option value="material">Material</option>
-                            <option value="labour">Labour</option>
-                        </select>
-                    </div>
+                        <!-- Type -->
+                        <div class="form-group">
+                            <div class="col-xs-3">
+                                <label>PO Type</label>
+                                <select id="po-type-select" name="po-type" class="form-control">
+                                    <option value="material">Material</option>
+                                    <option value="labour">Labour</option>
+                                </select>
+                            </div>
 
-                    <!-- Task -->
-                    <div class="form-group">
-                        <label>Task</label>
-                        <input class="po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
-                        <input id="hidden-task-id" type="hidden" name="task-id">
-                    </div>
+                            <!-- Task -->
+                            <div class="col-xs-3">
+                                <label>Task</label>
+                                <input id="task-desc-input" class="form-control po-task-type-textbox" type="text" name="task-description" value="Foundation" readonly>
+                                <input id="hidden-task-id" type="hidden" name="task-id">
+                            </div>
 
-                    <!-- Estimated Delivery -->
-                    <div class="form-group">
-                        <label>Estimated Delivery</label><input type="text" id="est-delivery" name="est-delivery">
-                    </div>
+                            <!-- Est. Delivery -->
+                            <div class="col-xs-3">
+                                <label>Est Delivery</label><input type="text" id="est-delivery" name="est-delivery" class="form-control">
+                            </div>
 
-                    <!-- PO Description -->
-                    <div class="form-group">
-                        <label>PO Description</label>
-                        <input name="po-description" type="text">
-                    </div>
-
-                    <!-- Material PO -->
-                    <div id="project-task-material-po" class="panel panel-default po-content invisible-panel">
-                        <div class="panel-heading">
-                            <label>Supplier</label>
-                            <select name="supplier">
-                                <?php foreach ($suppliers as $supplier) {
-                                    echo '<option value="' . $supplier->name .'">'
-                                        . $supplier->name
-                                        . '</option>';
-                                } ?>
-                            </select>
-                            <?php if(isset($_SESSION["addPoError"])) {
-                                echo $_SESSION["addPoError"];
-                                unset($_SESSION["addPoError"]);
-                            } ?>
-                        </div>
-                        <div class="panel-body">
-                            <div id='material-collapse' role='tabpanel' aria-labelledby='material-heading'>
-                                <table id="material-po-table" class="table table-striped table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th>Unit Price</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="material-po-table-body">
-                                        <tr>
-                                            <td><input name="description" type="text"> </td>
-                                            <td><input name="unit-price" type="text"> </td>
-                                            <td><input name="quantity" type="text"> </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <!-- PO Description -->
+                            <div class="col-xs-3">
+                                <label>PO Description</label>
+                                <input id="po-description" name="po-description" type="text" class="form-control">
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Contractor PO -->
-                    <div id="project-task-contractor-po" class="panel panel-default po-content invisible-panel">
-                        <div class="panel-heading">
-                            <label>Contractor</label>
-                            <select name="contractor">
-                                <?php foreach ($contractors as $contractor) {
-                                    echo '<option value="' . $contractor->org_name .'">'
-                                        . $contractor->org_name
-                                        . '</option>';
-                                } ?>
-                            </select>
-                        </div>
-                        <div class="panel-body">
-                            <div id='contractor-collapse' role='tabpanel' aria-labelledby='contractor-heading'>
+
+                        <!-- Material Line Items -->
+                        <div id="project-task-material-po" class="invisible-panel">
+                            <div class="form-group">
+                                <div class="col-xs-3">
+                                    <label>Supplier</label>
+                                    <select name="supplier" class="form-control">
+                                        <?php foreach ($suppliers as $supplier) {
+                                            echo '<option value="' . $supplier->name .'">'
+                                                . $supplier->name
+                                                . '</option>';
+                                        } ?>
+                                    </select>
+                                    <?php if(isset($_SESSION["addPoError"])) {
+                                        echo $_SESSION["addPoError"];
+                                        unset($_SESSION["addPoError"]);
+                                    } ?>
+                                </div>
+                            </div>
+
                                 <table id="material-po-table" class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
+                                        <th>MID</th>
                                         <th>Description</th>
-                                        <th>Rate</th>
-                                        <th>Hours</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
                                     </tr>
                                     </thead>
+                                    <tbody id="material-po-table-body">
+                                    <tr>
+                                        <td class="col-xs-2"><input name="mid" type="text" class="form-control"> </td>
+                                        <td><input name="description" type="text" class="form-control"> </td>
+                                        <td><input name="unit-price" type="text" class="form-control"> </td>
+                                        <td><input name="quantity" type="text" class="form-control"> </td>
+                                    </tr>
+                                    </tbody>
                                 </table>
+
+                            <div>
+
                             </div>
                         </div>
-                    </div>
 
-                    <!-- submit -->
-                    <div class="form-group">
-                        <input type="submit" name="submit_add_project" value="Submit" />
-                    </div>
-                </form>
+                        <!-- Contractor Line Items -->
+                        <div id="project-task-contractor-po" class="invisible-panel">
+                            <div>
+                                <label>Contractor</label>
+                                <select name="contractor">
+                                    <?php foreach ($contractors as $contractor) {
+                                        echo '<option value="' . $contractor->org_name .'">'
+                                            . $contractor->org_name
+                                            . '</option>';
+                                    } ?>
+                                </select>
+                            </div>
+                            <div>
+                                <div id='contractor-collapse' role='tabpanel' aria-labelledby='contractor-heading'>
+                                    <table id="material-po-table" class="table table-striped table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Rate</th>
+                                            <th>Hours</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- submit -->
+                        <div class="form-group">
+                            <input type="submit" name="submit_add_project" value="Submit" />
+                        </div>
+                    </form>
             </div>
         </div>
 

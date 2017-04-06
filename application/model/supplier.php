@@ -14,6 +14,16 @@ class Supplier
         }
     }
 
+    public function getSupplierIdFromName($name) {
+        $sql = "SELECT sid 
+                FROM supplier 
+                WHERE name = :name";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':name' => $name);
+        $query->execute($parameters);
+        return $query->fetch()->sid;
+    }
+
     public function getSupplier($sid) {
         $sql = "SELECT * 
                 FROM supplier 
