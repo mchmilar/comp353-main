@@ -10,16 +10,21 @@
 
         <!-- Expected completion date -->
         <div class="col-md-3">
-            <h6>Expected Completion Date:</h6>
+            <h6>Expected Completion Date: <?php echo date("F d, Y", strtotime($estimated_complete)) ?></h6>
+        </div>
+
+        <!-- Expected price -->
+        <div class="col-md-2">
+            <h6>Expected Price: <?php echo "$".$estimated_price ?></h6>
         </div>
 
         <!-- Budget info -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <h6 id="current-expenses">Current Expenses: <?php echo $price; ?></h6>
         </div>
 
         <!-- Current Phase -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <h6>Current Phase: <?php echo $phase; ?></h6>
         </div>
     </div>

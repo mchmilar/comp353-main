@@ -13,8 +13,8 @@
                         . '</option>';
                 } ?>
             </select>
-            <label>Link</label>
-
+            <label>Square Feet</label>
+            <input name="square-feet" type="text">
             <input type="submit" name="submit_add_project" value="Submit" />
         </form>
     </div>

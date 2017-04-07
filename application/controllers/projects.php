@@ -50,9 +50,12 @@ class Projects extends Controller
     public function addProject()
     {
         $new_pid = 0;
+        $cost_estimate = $this->task->estimateTotalCost($_POST["square-feet"]);
+        $time_estimate = $this->task->estimateTotalTime($_POST['square-feet']);
+
         // if we have POST data to create a new project
         if (isset($_POST["submit_add_project"])) {
-            $new_pid = $this->project->addProject($_POST["name"]);
+            $new_pid = $this->project->addProject($_POST["name"], $cost_estimate, $time_estimate, $_POST["square-feet"]);
         }
 
         // where to go after project has been added
@@ -70,6 +73,8 @@ class Projects extends Controller
         $suppliers = $this->supplier->getAllSuppliers();
         $contractors = $this->contractor->getAllContractors();
         $price = $this->project->price($pid);
+        $estimated_complete = $this->project->estimatedComplete($pid);
+        $estimated_price = $this->project->estimatedPrice($pid);
         $phase = $this->project->activePhase($pid);
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/view_project.php';
