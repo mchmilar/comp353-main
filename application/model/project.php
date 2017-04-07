@@ -39,6 +39,22 @@ class Project
         return $pid->pid + 1;
     }
 
+    public function price($pid) {
+        $sql = "SELECT price FROM project WHERE pid = :pid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':pid' => $pid);
+        $query->execute($parameters);
+        return $query->fetch()->price;
+    }
+
+    public function activePhase($pid) {
+        $sql = "SELECT name FROM phase NATURAL JOIN active_phase WHERE pid = :pid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':pid' => $pid);
+        $query->execute($parameters);
+        return $query->fetch()->name;
+    }
+
     public function addProject($name)
     {
         // get project id number to use

@@ -21,7 +21,10 @@ class PO
         $parameters = array(':poid' => $poid, ':mid' => $mid, ':sid' => $sid,
                             ':tid' => $tid, ':pid' => $pid, ':desc' => $desc,
                             ':ucost' => $uPrice, ':qty' => $qty);
-        $query->execute($parameters);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        if (!$query->execute($parameters)) {
+            throw new Exception('Add Supply Line Failed');
+        }
     }
 
     public function addLabourLine($poid, $cid, $tid, $pid, $desc, $rate, $hours) {
@@ -57,7 +60,9 @@ class PO
         $query = $this->db->prepare($sql);
         $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid, ':po_type' => $poType);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
-        $query->execute($parameters);
+        if (!$query->execute($parameters)) {
+            throw new Exception('Create PO Failed');
+        }
 
         return $poid;
     }
@@ -68,7 +73,7 @@ class PO
         $parameters = array(':poid' => $poid);
         $query->execute($parameters);
         $line = $query->fetch();
-        
+
         return (double)$line->rate * (double)$line->num_hours;
     }
 

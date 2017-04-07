@@ -54,15 +54,21 @@ class POS extends Controller
             /////////////////////////////////////////////////////
             // We have verified our input data, perform inserts//
             /////////////////////////////////////////////////////
+            $this->db->beginTransaction();
+            try {// Create PO and get its id
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
 
-            // Create PO and get its id
-            $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
-
-            // Insert each line item into supply
-            $sid = $this->supplier->getSupplierIdFromName($supplier);
-            foreach ($lineItems as $line) {
-                $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2], $line[3]);
+                // Insert each line item into supply
+                $sid = $this->supplier->getSupplierIdFromName($supplier);
+                foreach ($lineItems as $line) {
+                    $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2], $line[3]);
+                }
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                $_SESSION["addPoError"] = $e->getMessage();
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
             }
+            $this->db->commit();
         } elseif ($poType === 'labour') {
             $contractor = $_POST['contractor'];
             unset($_POST['contractor']);
@@ -76,13 +82,21 @@ class POS extends Controller
             /////////////////////////////////////////////////////
 
             // Create PO and get its id
-            $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
+            $this->db->beginTransaction();
+            try {
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
 
-            // Insert each line item into supply
-            $sid = $this->contractor->getContractorIdFromName($contractor);
-            foreach ($lineItems as $line) {
-                $this->po->addLabourLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2]);
+                // Insert each line item into supply
+                $sid = $this->contractor->getContractorIdFromName($contractor);
+                foreach ($lineItems as $line) {
+                    $this->po->addLabourLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2]);
+                }
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                $_SESSION["addPoError"] = $e->getMessage();
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
             }
+            $this->db->commit();
         }
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
     }

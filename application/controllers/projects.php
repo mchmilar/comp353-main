@@ -69,6 +69,8 @@ class Projects extends Controller
         $tasks = $this->task->getAllTasks();
         $suppliers = $this->supplier->getAllSuppliers();
         $contractors = $this->contractor->getAllContractors();
+        $price = $this->project->price($pid);
+        $phase = $this->project->activePhase($pid);
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/view_project.php';
         require APP . 'views/_templates/footer.php';

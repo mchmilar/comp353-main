@@ -22,6 +22,7 @@ $('.task-row').on('click', function(){
     taskRowClick(this);
 });
 
+
 function taskRowClick(selected) {
     var tid = $( selected ).find('.tid-col').text();
     var task_name = $( selected ).find('.task-name-col').text();

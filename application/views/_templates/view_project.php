@@ -15,12 +15,12 @@
 
         <!-- Budget info -->
         <div class="col-md-3">
-            <h6>Current Expenses:</h6>
+            <h6 id="current-expenses">Current Expenses: <?php echo $price; ?></h6>
         </div>
 
         <!-- Current Phase -->
         <div class="col-md-3">
-            <h6>Current Phase: </h6>
+            <h6>Current Phase: <?php echo $phase; ?></h6>
         </div>
     </div>
 
