@@ -91,6 +91,7 @@ class Users extends Controller
         $_SESSION = array();
         session_destroy();
         $this->messages[] = "You have been logged out.";
+        header('location: ' . URL_WITH_INDEX_FILE . 'users');
     }
 
     /**

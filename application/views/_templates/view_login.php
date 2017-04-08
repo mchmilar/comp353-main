@@ -10,8 +10,6 @@ if (!$this) {
 
 
 
-
-
 ?><!DOCTYPE html>
 <html>
 
@@ -19,27 +17,7 @@ if (!$this) {
 </head>
 <body>
 
-<!--<div>-->
-<!--    <h3>Login</h3>-->
-<!--    <form action="--><?php //echo URL_WITH_INDEX_FILE; ?><!--users/attemptLogin" method="POST">-->
-<!--        <label>Name</label>-->
-<!--        -->
-<!--        <select name="name">-->
-<!--            --><?php //foreach ($customers as $customer) {
-//                echo '<option value="' . $customer->first_name . ' '. $customer->last_name .'">'
-//                    . $customer->first_name . ' '. $customer->last_name
-//                    . '</option>';
-//            } ?>
-<!--        </select>-->
-<!--        <label>Square Feet</label>-->
-<!--        <input name="square-feet" type="text">-->
-<!--        <input type="submit" name="submit_add_project" value="Submit" />-->
-<!--    </form>-->
-<!--</div>-->
-
-
 <div>
-<!--    <form id=" form1" method="post" class="classA" action="login.php">-->
     <form action="<?php echo URL_WITH_INDEX_FILE; ?>users/attemptLogin" method="POST">
         <label for="uid">
             User ID: <br>

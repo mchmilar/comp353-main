@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Class Songs
- * This is a demo class.
+ * Class Tasks
  *
  * Please note:
  * Don't use the same name for class and method, as this might trigger an (unintended) __construct of the class.
@@ -20,6 +19,10 @@ class Tasks extends Controller
 
     public function loadModel()
     {
+        if(!isset($_SESSION['user_login_status']) OR $_SESSION['user_login_status'] != 1)
+        {
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
+        }
         require APP . '/model/task.php';
         require APP . '/model/phase.php';
         // create new "model" (and pass the database connection)

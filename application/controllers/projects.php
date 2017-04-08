@@ -40,6 +40,10 @@ class Projects extends Controller
         $projects = $this->project->getAllProjects();
         $customers = $this->customer->getAllCustomers();
 
+        if(!isset($_SESSION['user_login_status']) OR $_SESSION['user_login_status'] != 1)
+        {
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
+        }
 
         require APP . 'views/_templates/header.php';
         require APP . 'views/projects/index.php';

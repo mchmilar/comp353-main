@@ -29,4 +29,5 @@ require APP . '/core/controller.php';
 
 // start the application
 session_start();
+
 $app = new Application();
