@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: justinwhatley
- * Date: 2017-04-07
- * Time: 3:19 PM
- */
 class User
 {
     /**
@@ -34,10 +28,25 @@ class User
     public function checkPassword($uid, $password) {
         $sql = "SELECT * 
                 FROM user 
-                WHERE uid = $uid and password = $password";
+                WHERE uid = :uid and password = :password";
+        $parameters = array(':uid' => $uid, ':password' => $password);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $query->execute($parameters);
         return $query->fetch();
     }
+
+    //checks that password for a particular user id is valid
+    public function checkAccess($uid) {
+        $sql = "SELECT access_level 
+                FROM user 
+                WHERE uid = :uid;";
+        $parameters = array(':uid' => $uid);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
 
 }

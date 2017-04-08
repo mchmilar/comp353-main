@@ -11,7 +11,7 @@
  * Class User
  * handles the user's login and logout process
  */
-class User extends Controller
+class Users extends Controller
 {
 
     function __construct()
@@ -30,17 +30,8 @@ class User extends Controller
 
     public function index()
     {
-
-        #if it's an employee, give full access
-        $projects = $this->project->getAllProjects();
-        $customers = $this->customer->getAllCustomers();
-
-        #if it's a customer, give access to customer's projects and prevent changes to anything but
-        #personal information
-        #$projects = $this->project->getUserProjects();
-
         require APP . 'views/_templates/header.php';
-        require APP . 'views/projects/index.php';
+        require APP . 'views/_templates/view_login.php';
         require APP . 'views/_templates/footer.php';
     }
 
@@ -48,60 +39,57 @@ class User extends Controller
     public function view()
     {
 
-        require APP . 'views/_templates/login.php';
+        require APP . 'views/_templates/view_login.php';
 
     }
-
 
     /**
      * log in with post data
      */
-    private function attemptLogin()
+    public function attemptLogin()
     {
         // check login form contents
         if (empty($_POST['uid'])) {
-            $this->errors[] = "Uid field was empty.";
+            $this->errors[] = "User ID field was empty.";
             // check that password is included
         } elseif (empty($_POST['password'])) {
             $this->errors[] = "Password field was empty.";
             // if both are included
         } elseif (!empty($_POST['uid']) && !empty($_POST['password'])) {
 
+            $result_user_password = $this->user->checkPassword($_POST['uid'], $_POST['password']);
 
-            $valid_user = $this->user->checkUser($_POST['uid']);
-            if ($valid_user->num_rows != 1) {
-                $this->errors[] = "Invalid user id.";
-            }
-
-            $result_user_password = $this->user->isUserLoggedIn($_POST['uid'], $_POST['password']);
-            // if this user exists
-            if ($result_user_password->num_rows == 1) {
-                // get result row (as an object)
-                $result_row = $result_user_password->fetch_object();
-
-                $_SESSION['uid'] = $result_row->user_name;
+            if ($result_user_password) {
+                $_SESSION['uid'] = $_POST['uid'];
                 $_SESSION['user_login_status'] = 1;
 
-
-            } else {
-                $this->errors[] = "Wrong password. Try again.";
+                //Access level 1 for employee and 0 for customers
+                $access = $this->user-> checkAccess($_POST['uid']);
+                $_SESSION['access_level'] = $access->access_level;
             }
-        } else {
-            $this->errors[] = "This user does not exist.";
+            else {
+                $_SESSION['user_login_status'] = 0;
+                $this->errors[] = "Wrong user ID or password. Try again.";
+            }
         }
+
+        if($_SESSION['user_login_status'] == 1) {
+                header('location: ' . URL_WITH_INDEX_FILE . 'projects');
+            } else {
+                header('location: ' . URL_WITH_INDEX_FILE . 'users');
+            }
+
     }
 
 
     /**
      * perform the logout
      */
-    public
-    function doLogout()
+    public function logout()
     {
         // delete the session of the user
         $_SESSION = array();
         session_destroy();
-        // return a little feeedback message
         $this->messages[] = "You have been logged out.";
     }
 
@@ -115,10 +103,6 @@ class User extends Controller
         if (isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] == 1) {
             return true;
         }
-        // default return
         return false;
     }
-}
-
-?>
 }

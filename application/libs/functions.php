@@ -45,7 +45,7 @@ function login($username, $password $db) {
             $_SESSION['username'] = $username;
             $_SESSION['login_string'] = hash('sha512', $dbpassword . $user_browser);
 
-            // Login successful
+            // login successful
             return true;
         } else {
             // Password is not correct
