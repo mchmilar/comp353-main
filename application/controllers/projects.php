@@ -77,7 +77,8 @@ class Projects extends Controller
         $estimated_price = $this->project->estimatedPrice($pid);
         $phase = $this->project->activePhase($pid);
         require APP . 'views/_templates/header.php';
-        require APP . 'views/_templates/view_project.php';
+        require APP . 'views/_templates/body.php';
+        require APP . 'views/projects/view.php';
         require APP . 'views/_templates/footer.php';
     }
 

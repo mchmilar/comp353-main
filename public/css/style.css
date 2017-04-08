@@ -39,6 +39,15 @@ html, body {
     background-color: #E3F1E3;
 }
 
+#task-subheader {
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
+#new-task {
+    display: none;
+}
+
 .task-list {
     background-color: #FFF;
     color: #535353;
@@ -101,7 +110,7 @@ table {
     height: 100vh;
 }
 
-.po-content {
+.content-box {
     background-color: #fff;
 }
 
@@ -120,53 +129,20 @@ table {
     background-color: #F8FAF8
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 5 Column Bootstrap */
-.col-xs-5ths,
-.col-sm-5ths,
-.col-md-5ths,
-.col-lg-5ths {
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 1px;
+.inline-input input, .inline-input select{
+    display: inline;
 }
 
-.col-xs-5ths {
-    width: 20%;
-    float: left;
+#main-task-list {
+    margin-top: 40px;
 }
 
-@media (min-width: 768px) {
-    .col-sm-5ths {
-        width: 20%;
-        float: left;
-    }
-}
 
-@media (min-width: 992px) {
-    .col-md-5ths {
-        width: 20%;
-        float: left;
-    }
-}
 
-@media (min-width: 1200px) {
-    .col-lg-5ths {
-        width: 20%;
-        float: left;
-    }
-}
+
+
+
+
+
+
+
