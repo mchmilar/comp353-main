@@ -8,7 +8,7 @@
                     <input id="new-button" type="button" value="New" class="input-sm form-control">
                 </div>
                 <div class="form-group">
-                    <input type="button" value="Edit" class="input-sm form-control">
+                    <input id="edit-task" type="button" value="Edit" class="input-sm form-control">
                     <input id="selected-task" value="0" type="hidden">
                 </div>
             </div>
@@ -186,3 +186,7 @@
     </div>
 
 </div>
+
+<script>
+    var url_with_index_file = "<?php echo URL_WITH_INDEX_FILE; ?>";
+</script>

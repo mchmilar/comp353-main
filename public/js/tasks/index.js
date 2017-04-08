@@ -16,4 +16,10 @@ $(document).ready(function() {
         var id = $(this).find("td:eq(0)").html();
         $("#selected-task").val(id);
     });
+
+    $("#edit-task").click(function() {
+        var id = $("#selected-task").val();
+        window.location.replace(url_with_index_file + "tasks/edit/" + id);
+
+    });
 } );

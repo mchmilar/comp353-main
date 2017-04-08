@@ -78,7 +78,34 @@ class Tasks extends Controller
         require APP . 'views/_templates/footer.php';
     }
 
+    public function edit($tid) {
 
+        $task = $this->task->getTask($tid);
+        $phases = $this->phase->getAllPhases();
+      //  echo $task->tid; die();
+
+        require APP . 'views/_templates/header.php';
+        require APP . 'views/_templates/body.php';
+        require APP . 'views/tasks/edit.php';
+        require APP . 'views/_templates/footer.php';
+    }
+
+    public function updateTask($tid) {
+        $desc = $_POST['description'];
+        $phase = $_POST['phase'];
+        $cFactor = ($_POST['cfactor']) ? $_POST['cfactor'] : 0;
+        $cBase = ($_POST['cbase']) ? $_POST['cbase'] : 0;
+        $tFactor = ($_POST["tfactor"]) ? $_POST["tfactor"] : 0;
+        $tBase = ($_POST['tbase']) ? $_POST['tbase'] : 0;
+
+        // if we have POST data to create a new project
+        if (isset($_POST["submit_update_task"])) {
+            $new_pid = $this->task->updateTask($desc, $phase, $cFactor, $cBase, $tFactor, $tBase, $tid);
+        }
+
+
+        header('location: ' . URL_WITH_INDEX_FILE . 'tasks/index');
+    }
     public function addTask()
     {
         $desc = $_POST['description'];

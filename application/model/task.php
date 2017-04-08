@@ -48,9 +48,11 @@ class Task
     public function getTask($tid) {
         $sql = "SELECT * 
                 FROM task 
-                WHERE tid = $tid";
+                WHERE tid = :tid";
+        $parameters = array(':tid' => $tid);
         $query = $this->db->prepare($sql);
-        $query->execute();
+  //      echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
         return $query->fetch();
     }
 
@@ -114,4 +116,28 @@ class Task
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
     }
+
+    public function updateTask($desc, $phase, $cFactor, $cBase, $tFactor, $tBase, $tid) {
+        $sql = "UPDATE task 
+                SET 
+                  description = :desc,
+                  phase_id = :phase,
+                  cost_per_sq_foot = :cfactor,
+                  base_cost = :cbase,
+                  time_per_sq_foot = :tfactor,
+                  base_time = :tbase
+                WHERE tid = :tid";
+        $parameters = array(':desc' => $desc,
+            ':phase' => $phase,
+            ':cfactor' => $cFactor,
+            ':cbase' => $cBase,
+            ':tfactor' => $tFactor,
+            ':tbase' => $tBase,
+            ':tid' => $tid
+        );
+        $query = $this->db->prepare($sql);
+//      echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+    }
+
 }
