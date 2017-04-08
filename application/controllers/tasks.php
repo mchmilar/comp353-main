@@ -78,26 +78,26 @@ class Tasks extends Controller
         require APP . 'views/_templates/footer.php';
     }
 
-/*
-    public function addProject()
+
+    public function addTask()
     {
-        $new_pid = 0;
-        $cost_estimate = $this->task->estimateTotalCost($_POST["square-feet"]);
-        $time_estimate = $this->task->estimateTotalTime($_POST['square-feet']);
+        $desc = $_POST['description'];
+        $phase = $_POST['phase'];
+        $cFactor = ($_POST['cfactor']) ? $_POST['cfactor'] : 0;
+        $cBase = ($_POST['cbase']) ? $_POST['cbase'] : 0;
+        $tFactor = ($_POST["tfactor"]) ? $_POST["tfactor"] : 0;
+        $tBase = ($_POST['tbase']) ? $_POST['tbase'] : 0;
 
         // if we have POST data to create a new project
-        if (isset($_POST["submit_add_project"])) {
-            $new_pid = $this->project->addProject($_POST["name"], $cost_estimate, $time_estimate, $_POST["square-feet"]);
+        if (isset($_POST["submit_add_task"])) {
+            $new_pid = $this->task->addTask($desc, $phase, $cFactor, $cBase, $tFactor, $tBase);
         }
 
-        // where to go after project has been added
-        if ($new_pid) {
-            header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $new_pid);
-        } else {
-            header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
-        }
 
-    }*/
+        header('location: ' . URL_WITH_INDEX_FILE . 'tasks/index');
+
+
+    }
 
 
 }

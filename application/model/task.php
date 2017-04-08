@@ -98,6 +98,20 @@ class Task
         } else {
             throw new Exception("Get task multiplier and base cost error");
         }
+    }
 
+    public function addTask($desc, $phase, $cFactor, $cBase, $tFactor, $tBase) {
+        $sql = "INSERT INTO task (description, cost_per_sq_foot, time_per_sq_foot, base_cost, base_time, phase_id)
+                VALUES (:desc, :cfactor, :cbase, :tfactor, :tbase, :phase)";
+        $parameters = array(':desc' => $desc,
+            ':phase' => $phase,
+            ':cfactor' => $cFactor,
+            ':cbase' => $cBase,
+            ':tfactor' => $tFactor,
+            ':tbase' => $tBase
+        );
+        $query = $this->db->prepare($sql);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
     }
 }

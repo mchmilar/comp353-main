@@ -15,18 +15,18 @@
         </form>
     </div>
     <div id="new-task" class="col-md-12">
-        <form class="form-inline">
+        <form class="form-inline "  action="<?php echo URL_WITH_INDEX_FILE; ?>tasks/addTask" method="POST">
             <div class="form-group col-md-12">
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Description</span>
-                        <input type="text" class="input-sm form-control">
+                        <input name="description" type="text" class="input-sm form-control">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Phase</span>
-                        <select class="input-sm form-control">
+                        <select name="phase" class="input-sm form-control">
                             <?php foreach ($phases as $phase) {
                                 echo '<option value="' . $phase->phase_id .'">'
                                     . $phase->name
@@ -38,7 +38,7 @@
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Cost Factor</span>
-                        <input type="text" class="input-sm form-control">
+                        <input name="cfactor" type="text" class="input-sm form-control">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -49,23 +49,23 @@
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Cost Base</span>
-                        <input type="text" class="input-sm form-control">
+                        <input name="cbase" type="text" class="input-sm form-control">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Time Factor</span>
-                        <input type="text" class="input-sm form-control">
+                        <input name="tfactor" type="text" class="input-sm form-control">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Time Base</span>
-                        <input type="text" class="input-sm form-control">
+                        <input name="tbase" type="text" class="input-sm form-control">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <input type="button" value="Create" class="form-control input-sm">
+                    <input name="submit_add_task" type="submit" value="Create" class="form-control input-sm">
                 </div>
             </div>
         </form>
@@ -74,7 +74,7 @@
 
 <div id="left-pane-content">
     <form action="<?php echo URL_WITH_INDEX_FILE; ?>tasks/filterTasks" method="POST">
-        <div class="row">
+        <div class="row  invisible-panel">
             <div class="form-group">
                 <div class="col-xs-10 col-xs-offset-1">
                     <label>Description</label>
