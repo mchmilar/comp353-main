@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Class Songs
- * This is a demo class.
+ * Class Projects
  *
  * Please note:
  * Don't use the same name for class and method, as this might trigger an (unintended) __construct of the class.
@@ -39,12 +38,20 @@ class Projects extends Controller
     public function index()
     {
 
-        $projects = $this->project->getAllProjects();
-        $customers = $this->customer->getAllCustomers();
-
         if(!isset($_SESSION['user_login_status']) OR $_SESSION['user_login_status'] != 1)
         {
             die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
+        }
+
+        //Gets customer specific data for users without general access
+        if(isset($_SESSION['access_level']) AND $_SESSION['access_level'] != 1)
+        {
+            $projects = $this->project->getCustomerProjects($_SESSION['uid']);
+            $customers = $this->customer->getCustomerForLimitedAccessUser($_SESSION['uid']);
+        }
+        else {
+            $projects = $this->project->getAllProjects();
+            $customers = $this->customer->getAllCustomers();
         }
 
         require APP . 'views/_templates/header.php';

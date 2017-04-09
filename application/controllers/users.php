@@ -66,11 +66,6 @@ class Users extends Controller
                 //Access level 1 for employee and 0 for customers
                 $access = $this->user-> checkAccess($_POST['uid']);
                 $_SESSION['access_level'] = $access->access_level;
-                if(($_SESSION['access_level'])==0)
-                {
-                    $projectList = $this->user->checkProjects($_POST['uid']);
-                    $_SESSION['project_list'] = $projectList;
-                }
             }
             else {
                 $_SESSION['user_login_status'] = 0;

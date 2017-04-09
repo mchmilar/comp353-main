@@ -48,15 +48,4 @@ class User
         return $query->fetch();
     }
 
-    //checks what projects are available for a user
-    public function checkProjects($uid) {
-        $sql = "SELECT pid 
-                FROM purchase_project 
-                WHERE uid = :uid;";
-        $parameters = array(':uid' => $uid);
-        $query = $this->db->prepare($sql);
-        $query->execute($parameters);
-        return $query->fetchAll();
-    }
-
 }

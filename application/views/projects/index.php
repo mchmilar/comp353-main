@@ -10,16 +10,21 @@ if (!$this)
         <h3>Add a project</h3>
         <form action="<?php echo URL_WITH_INDEX_FILE; ?>projects/addproject" method="POST">
             <label>Name</label>
-            <select name="name">
+            <select <?php if($_SESSION['access_level'] == 0) echo "disabled"; ?> name="name">
                 <?php foreach ($customers as $customer) {
                     echo '<option value="' . $customer->first_name . ' '. $customer->last_name .'">'
                         . $customer->first_name . ' '. $customer->last_name
                         . '</option>';
                 } ?>
             </select>
+
+            <div <?php if($_SESSION['access_level'] == 0) echo "hidden"; ?>
             <label>Square Feet</label>
             <input name="square-feet" type="text">
             <input type="submit" name="submit_add_project" value="Submit" />
+            </div>
+
+
         </form>
     </div>
     <!-- main content output -->
