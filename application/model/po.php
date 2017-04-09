@@ -14,6 +14,29 @@ class PO
         }
     }
 
+    public function getPO($poid) {
+        $sql = "SELECT * FROM po where poid = :poid";
+        $parameters = array(':poid' => $poid);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
+    public function getAllPOs() {
+        $sql = "SELECT * FROM po";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    public function getAllProjectPOs() {
+        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and pid = :pid group by po.poid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':pid' => $pid, ':tid' => $tid);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+    }
+
     public function addSupplyLine($poid, $sid, $tid, $pid, $mid, $desc, $uPrice, $qty) {
         $sql = "INSERT INTO supply
                 VALUES (:poid, :mid, :sid, :tid, :pid, :desc, :ucost, :qty)";
@@ -38,7 +61,7 @@ class PO
     }
 
     public function getPOsTaskProj($pid, $tid, $poType) {
-        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and pid = :pid";
+        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and pid = :pid group by po.poid";
         $query = $this->db->prepare($sql);
         $parameters = array(':pid' => $pid, ':tid' => $tid);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();

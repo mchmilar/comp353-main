@@ -25,12 +25,14 @@ class Projects extends Controller
         require APP . '/model/task.php';
         require APP . '/model/supplier.php';
         require APP . '/model/contractor.php';
+        require APP . '/model/permit.php';
         // create new "model" (and pass the database connection)
         $this->project = new Project($this->db);
         $this->customer = new Customer($this->db);
         $this->task = new Task($this->db);
         $this->supplier = new Supplier($this->db);
         $this->contractor = new Contractor($this->db);
+        $this->permit = new Permit($this->db);
     }
 
 
@@ -76,6 +78,10 @@ class Projects extends Controller
         $estimated_complete = $this->project->estimatedComplete($pid);
         $estimated_price = $this->project->estimatedPrice($pid);
         $phase = $this->project->activePhase($pid);
+        $permits = $this->permit->getAll();
+        $permitsJson = json_encode($permits);
+
+
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/body.php';
         require APP . 'views/projects/view.php';

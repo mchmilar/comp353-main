@@ -26,6 +26,25 @@ class POS extends Controller
         $this->contractor = new Contractor($this->db);
     }
 
+    public function edit($poid) {
+        $po = $this->po->getPO($poid);
+
+        require APP . 'views/_templates/header.php';
+        require APP . 'views/_templates/body.php';
+        require APP . 'views/pos/edit.php';
+        require APP . 'views/_templates/footer.php';
+    }
+
+    public function index() {
+        $pos = $this->po->getAllPOs();
+        $projects = $this->project->getAllProjects();
+
+        require APP . 'views/_templates/header.php';
+        require APP . 'views/_templates/body.php';
+        require APP . 'views/pos/index.php';
+        require APP . 'views/_templates/footer.php';
+    }
+
     public function addPO($pid) {
         $taskId = $_POST['task-id'];
         $estDelivery = $_POST['est-delivery'];
@@ -138,6 +157,16 @@ class POS extends Controller
         //echo $tid;
         $table = "";
         if (isset($pid, $tid)) {
+            $pos = null;
+            if ($tid == 0) {
+                // get all po's
+
+            } else {
+                // get po's for specified task
+                $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
+                $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
+                $pos = array_merge($supply_pos, $labour_pos);
+            }
             $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
             $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
             $pos = array_merge($supply_pos, $labour_pos);
