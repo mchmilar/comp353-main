@@ -13,6 +13,10 @@ class POS extends Controller
 {
     public function loadModel()
     {
+        if(!isset($_SESSION['user_login_status']) OR $_SESSION['user_login_status'] != 1)
+        {
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
+        }
         require APP . '/model/po.php';
         require APP . '/model/project.php';
         require APP . '/model/task.php';

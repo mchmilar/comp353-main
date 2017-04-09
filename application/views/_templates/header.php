@@ -55,7 +55,7 @@ if (!$this) {
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <li><a href="<?php echo URL_WITH_INDEX_FILE; ?>users/logout">Logout</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
