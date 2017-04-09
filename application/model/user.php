@@ -36,7 +36,7 @@ class User
         return $query->fetch();
     }
 
-    //checks that password for a particular user id is valid
+    //checks the access for a user
     public function checkAccess($uid) {
         $sql = "SELECT access_level 
                 FROM user 
@@ -48,5 +48,15 @@ class User
         return $query->fetch();
     }
 
+    //checks what projects are available for a user
+    public function checkProjects($uid) {
+        $sql = "SELECT pid 
+                FROM purchase_project 
+                WHERE uid = :uid;";
+        $parameters = array(':uid' => $uid);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
 
 }

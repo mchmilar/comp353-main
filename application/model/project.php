@@ -87,6 +87,7 @@ class Project
         $uid = $query->fetch()->uid;
 
         $time_string = "+" . (int)$time_estimate . " days";
+        date_default_timezone_set('America/New_York');
         $estimated_complete = date('Y-m-d', strtotime($time_string));
 
         $sql = "INSERT INTO project (price, estimated_price, estimated_complete, square_feet) 
