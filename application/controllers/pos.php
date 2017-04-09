@@ -79,12 +79,12 @@ class POS extends Controller
             /////////////////////////////////////////////////////
             $this->db->beginTransaction();
             try {// Create PO and get its id
-                $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
 
                 // Insert each line item into supply
                 $sid = $this->supplier->getSupplierIdFromName($supplier);
                 foreach ($lineItems as $line) {
-                    $this->po->addSupplyLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2], $line[3]);
+                    $this->po->addSupplyLine($poid, $sid, $taskId, $line[0], $line[1], $line[2], $line[3]);
                 }
             } catch (Exception $e) {
                 $this->db->rollBack();
@@ -107,12 +107,12 @@ class POS extends Controller
             // Create PO and get its id
             $this->db->beginTransaction();
             try {
-                $poid = $this->po->createPO($poDesc, $estDelivery, $poType);
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
 
                 // Insert each line item into supply
                 $sid = $this->contractor->getContractorIdFromName($contractor);
                 foreach ($lineItems as $line) {
-                    $this->po->addLabourLine($poid, $sid, $taskId, $pid, $line[0], $line[1], $line[2]);
+                    $this->po->addLabourLine($poid, $sid, $taskId, $line[0], $line[1], $line[2]);
                 }
             } catch (Exception $e) {
                 $this->db->rollBack();
@@ -161,19 +161,16 @@ class POS extends Controller
         //echo $tid;
         $table = "";
         if (isset($pid, $tid)) {
-            $pos = null;
+
             if ($tid == 0) {
                 // get all po's
-
+                $pos = $this->po->getAllProjectPOs($pid);
             } else {
                 // get po's for specified task
                 $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
                 $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
                 $pos = array_merge($supply_pos, $labour_pos);
             }
-            $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
-            $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
-            $pos = array_merge($supply_pos, $labour_pos);
 
             foreach($pos as $po) {
                 $table .= "<tr>";

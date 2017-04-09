@@ -38,7 +38,7 @@ if (!$this)
         <tbody>
             <tr class="task-row">
                 <td class="tid-col hidden">0</td>
-                <td class="task-name-col">all</td>
+                <td class="task-name-col">All</td>
             </tr>
             <?php foreach ($tasks as $tsk) { ?>
                 <tr class="task-row">
