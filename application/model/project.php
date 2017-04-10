@@ -15,11 +15,13 @@ class Project
     }
 
     /**
-     * Get all songs from database
+     * Get all projects from database
      */
     public function getAllProjects()
     {
-        $sql = "SELECT pid, price, first_name, last_name FROM project natural join purchase_project natural join user";
+        $sql = "SELECT pid, price, first_name, last_name 
+                FROM project natural join purchase_project 
+                natural join user";
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -30,6 +32,25 @@ class Project
         return $query->fetchAll();
     }
 
+    //gets only the projects available for that user
+    public function getCustomerProjects($uid)
+    {
+        $sql = "SELECT pid, price, first_name, last_name 
+                FROM project 
+                natural join purchase_project 
+                natural join user
+                WHERE uid = :uid;";
+//
+//        $query = $this->db->prepare($sql);
+//
+//        $sql = "SELECT pid
+//                FROM purchase_project
+//                WHERE uid = :uid;";
+        $parameters = array(':uid' => $uid);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
 
     public function nextPID() {
         $sql = "SELECT max(pid) as pid FROM project";

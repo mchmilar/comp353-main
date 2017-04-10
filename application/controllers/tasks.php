@@ -21,7 +21,13 @@ class Tasks extends Controller
     {
         if(!isset($_SESSION['user_login_status']) OR $_SESSION['user_login_status'] != 1)
         {
-            die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'login'));
+        }
+
+        //Gets customer specific data for users without general access
+        if(isset($_SESSION['access_level']) AND $_SESSION['access_level'] != 1)
+        {
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'projects'));
         }
         require APP . '/model/task.php';
         require APP . '/model/phase.php';
