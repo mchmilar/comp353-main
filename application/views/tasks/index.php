@@ -74,7 +74,7 @@
 
 <div id="left-pane-content">
     <form action="<?php echo URL_WITH_INDEX_FILE; ?>tasks/filterTasks" method="POST">
-        <div class="row  invisible-panel">
+        <div class="row">
             <div class="form-group">
                 <div class="col-xs-10 col-xs-offset-1">
                     <label>Description</label>

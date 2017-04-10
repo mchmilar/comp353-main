@@ -85,7 +85,8 @@ class Project
         $parameters = array(':first_name' => $name[0], ':last_name' => $name[1]);
         $query->execute($parameters);
         $uid = $query->fetch()->uid;
-
+        // Comment out when done.
+        date_default_timezone_set('America/Toronto');
         $time_string = "+" . (int)$time_estimate . " days";
         $estimated_complete = date('Y-m-d', strtotime($time_string));
 

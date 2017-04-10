@@ -41,5 +41,38 @@ class Contractor
         return $query->fetchAll();
     }
 
+    public function updateContractor($org_name, $first_name, $last_name, $phone, $profession, $cid)
+    {
+        $sql = "UPDATE contractor
+                SET org_name = :org_name,
+                    first_name = :first_name,
+                    last_name = :last_name,
+                    phone = :phone,
+                    profession = :profession
+                WHERE cid = :cid;";
+
+        $parameters = array(':org_name' => $org_name,
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':phone' => $phone,
+            ':profession' => $profession,
+            ':cid' => $cid
+        );
+        $query = $this->db->prepare($sql);
+
+        $query->execute($parameters);
+    }
+
+    public function getContractorAddress($cid)
+    {
+        $sql = "SELECT cid, street, city, province,
+                postal_code, house_num, country
+                FROM contractor_address natural join address
+                WHERE cid = $cid;";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
 
 }
