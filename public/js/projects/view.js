@@ -104,6 +104,9 @@ function displayPoForm(selected) {
             $(value).prop('disabled', false);
         });
 
+        // Enable description
+        $("#po-description").prop('disabled', false);
+
     } else if (poType.toLowerCase() === 'labour') {
         // display labour po form
         $("#project-task-labour-po").removeClass("invisible-panel");
@@ -131,11 +134,15 @@ function displayPoForm(selected) {
             $(value).prop('disabled', false);
         });
 
+        // Enable description
+        $("#po-description").prop('disabled', false);
+
     } else {
         $("#project-task-labour-po").addClass("invisible-panel");
         $("#project-task-supply-po").addClass("invisible-panel");
         $("#add-permit-button").removeClass("invisible-panel");
         $("#project-task-permit-po").removeClass("invisible-panel");
+
         $("#po-description").addClass("invisible-panel");
         // Disable supply inputs
         var inputs = $("#project-task-supply-po :input");
@@ -154,5 +161,9 @@ function displayPoForm(selected) {
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', false);
         });
+
+        // Disable description
+        $("#po-description").prop('disabled', true);
+
     }
 }

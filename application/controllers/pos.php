@@ -55,10 +55,12 @@ class POS extends Controller
         $poDesc = $_POST['po-description'];
         $poType = $_POST['po-type'];
         $taskDesc = $_POST['task-description'];
+        $hasDesc = $poType === 'labour' || $poType === 'supply';
 
         // Check for incomplete PO
         // If it is, die with error
-        if ($taskId == null || $estDelivery == null || $poDesc == null) {
+        if ($taskId == null || $estDelivery == null ||($hasDesc && $poDesc == null)) {
+//            echo ("here");die();
             $_SESSION["addPoError"] = "Incomplete PO";
             die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
         }
@@ -79,12 +81,12 @@ class POS extends Controller
             /////////////////////////////////////////////////////
             $this->db->beginTransaction();
             try {// Create PO and get its id
-                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid, $taskId);
 
                 // Insert each line item into supply
                 $sid = $this->supplier->getSupplierIdFromName($supplier);
                 foreach ($lineItems as $line) {
-                    $this->po->addSupplyLine($poid, $sid, $taskId, $line[0], $line[1], $line[2], $line[3]);
+                    $this->po->addSupplyLine($poid, $sid, $line[0], $line[1], $line[2], $line[3]);
                 }
             } catch (Exception $e) {
                 $this->db->rollBack();
@@ -107,12 +109,12 @@ class POS extends Controller
             // Create PO and get its id
             $this->db->beginTransaction();
             try {
-                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid, $taskId);
 
                 // Insert each line item into supply
                 $sid = $this->contractor->getContractorIdFromName($contractor);
                 foreach ($lineItems as $line) {
-                    $this->po->addLabourLine($poid, $sid, $taskId, $line[0], $line[1], $line[2]);
+                    $this->po->addLabourLine($poid, $sid,  $line[0], $line[1], $line[2]);
                 }
             } catch (Exception $e) {
                 $this->db->rollBack();
@@ -123,13 +125,14 @@ class POS extends Controller
         } else {
             $permitCost = $_POST['permit-cost'];
             $permitNum = $_POST['permit-num'];
+            $permitName = $_POST['permit-name'];
             // Create PO and get its id
             $this->db->beginTransaction();
             try {
-                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
+                $poid = $this->po->createPO($permitName, $estDelivery, $poType, $pid, $taskId);
 
                 // Insert each line item into supply
-                $sid = $this->po->addPermitLine($poid, $taskId, $permitNum, $permitCost);
+                $sid = $this->po->addPermitLine($poid, $permitNum, $permitCost);
             } catch (Exception $e) {
                 $this->db->rollBack();
                 $_SESSION["addPoError"] = $e->getMessage();
@@ -183,9 +186,9 @@ class POS extends Controller
                 $pos = $this->po->getAllProjectPOs($pid);
             } else {
                 // get po's for specified task
-                $supply_pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
-                $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
-                $pos = array_merge($supply_pos, $labour_pos);
+                $pos = $this->po->getPOsTaskProj($pid, $tid, "supply");
+//                $labour_pos = $this->po->getPOsTaskProj($pid, $tid, "labour");
+//                $pos = array_merge($supply_pos, $labour_pos);
             }
 
             foreach($pos as $po) {
@@ -195,13 +198,8 @@ class POS extends Controller
                 $table .= "<td>" . $po->description . "</td>";
                 $table .= "<td>" . $po->est_delivery . "</td>";
                 $table .= "<td>" . $po->actual_delivery . "</td>";
-                if ($po->po_type === 'supply') {
-                    $total_cost = $this->po->totalSupplyCost($po->poid);
-                    $table .= "<td>" . $total_cost . "</td>";
-                } elseif ($po->po_type === 'labour') {
-                    $total_cost = $this->po->totalLabourCost($po->poid);
-                    $table .= "<td>" . $total_cost . "</td>";
-                }
+                $total_cost = $po->cost;
+                $table .= "<td>" . $total_cost . "</td>";
                 $table .= "</tr>";
             }
         } else {

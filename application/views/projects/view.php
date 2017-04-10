@@ -203,7 +203,7 @@ if (!$this)
                                     . '</option>';
                             } ?>
                         </select>
-                        <input id="add-permit-button" type="button" value="Add Permit" class="form-control input-sm">
+
                     </div>
 
                 </div>
@@ -220,6 +220,11 @@ if (!$this)
                             </tr>
                             </thead>
                             <tbody id="permit-table-body">
+                            <tr>
+                                <td><input disabled name="permit-num" type="hidden" value="1">1</td>
+                                <td><input name="permit-name" type="hidden" value="building-permit"> Building Permit</td>
+                                <td><input name="permit-cost" type="text"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

@@ -38,12 +38,12 @@ class PO
         return $query->fetchAll();
     }
 
-    public function addSupplyLine($poid, $sid, $tid, $mid, $desc, $uPrice, $qty) {
+    public function addSupplyLine($poid, $sid, $mid, $desc, $uPrice, $qty) {
         $sql = "INSERT INTO supply
-                VALUES (:poid, :mid, :sid, :tid, :desc, :ucost, :qty)";
+                VALUES (:poid, :mid, :sid, :desc, :ucost, :qty)";
         $query = $this->db->prepare($sql);
         $parameters = array(':poid' => $poid, ':mid' => $mid, ':sid' => $sid,
-                            ':tid' => $tid, ':desc' => $desc,
+                            ':desc' => $desc,
                             ':ucost' => $uPrice, ':qty' => $qty);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         if (!$query->execute($parameters)) {
@@ -51,27 +51,29 @@ class PO
         }
     }
 
-    public function addPermitLine($poid, $taskId, $permitNum, $permitCost) {
+    public function addPermitLine($poid, $permitNum, $permitCost) {
         $sql = "INSERT INTO permitted
-                VALUES (:poid, :perm_num, :tid, :cost)";
-        $parameters = array(':poid' => $poid, ':perm_num' => $permitNum, ':tid' => $taskId, ':cost' => $permitCost);
+                VALUES (:poid, :perm_num, :cost)";
+        $parameters = array(':poid' => $poid, ':perm_num' => $permitNum, ':cost' => $permitCost);
         $query = $this->db->prepare($sql);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
 
     }
 
-    public function addLabourLine($poid, $cid, $tid, $desc, $rate, $hours) {
+    public function addLabourLine($poid, $cid, $desc, $rate, $hours) {
         $sql = "INSERT INTO labour
-                VALUES (:poid, :cid, :rate, :num_hours, :desc, :tid)";
+                VALUES (:poid, :cid, :rate, :num_hours, :desc)";
         $query = $this->db->prepare($sql);
         $parameters = array(':poid' => $poid, ':cid' => $cid, ':num_hours' => $hours,
-            ':tid' => $tid, ':desc' => $desc,
+            ':desc' => $desc,
             ':rate' => $rate);
         $query->execute($parameters);
     }
 
-    public function getPOsTaskProj($pid, $tid, $poType) {
-        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and po.pid = :pid group by po.poid";
+    public function getPOsTaskProj($pid, $tid) {
+        $sql = "SELECT poid, description, purchase_date, est_delivery, actual_delivery, po_type, cost 
+                FROM po where tid = :tid and pid = :pid group by poid";
         $query = $this->db->prepare($sql);
         $parameters = array(':pid' => $pid, ':tid' => $tid);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
@@ -84,14 +86,14 @@ class PO
         return $query->fetchAll();
     }
 
-    public function createPO($poDesc, $estDelivery, $poType, $pid) {
+    public function createPO($poDesc, $estDelivery, $poType, $pid, $tid) {
         // get po id number to use
         $poid = $this->nextPOID();
         $today = date("Y-m-d");
-        $sql = "INSERT INTO po (poid, purchase_date, description, est_delivery, po_type, pid)
-                VALUES (:poid, :purchase_date, :description, :est_delivery, :po_type, :pid)";
+        $sql = "INSERT INTO po (poid, purchase_date, description, est_delivery, po_type, pid, tid)
+                VALUES (:poid, :purchase_date, :description, :est_delivery, :po_type, :pid, :tid)";
         $query = $this->db->prepare($sql);
-        $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid, ':po_type' => $poType, ':pid' => $pid);
+        $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid, ':po_type' => $poType, ':pid' => $pid, ':tid' => $tid);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         if (!$query->execute($parameters)) {
             throw new Exception('Create PO Failed');
