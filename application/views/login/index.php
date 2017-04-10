@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+<a id="popup" href="#" data-toggle="modal" data-target="#login-modal"></a>
 
 
 <div>
