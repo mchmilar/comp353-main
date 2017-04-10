@@ -34,6 +34,7 @@ class Suppliers extends Controller
 	public function index()
 	{
 		$suppliers = $this->supplier->getAllSuppliers();
+		$supplierPointer = $this->supplier;
 
 		require APP . 'views/_templates/header.php';
 		require APP . 'views/_templates/body.php';
