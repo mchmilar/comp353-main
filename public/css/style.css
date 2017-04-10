@@ -43,6 +43,25 @@ html, body {
     padding-top:10px;
     padding-bottom: 10px;
 }
+#supplier-subheader{
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
+#contractor-subheader{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+#new-supplier{
+    display: none;
+    padding-bottom: 10px;
+}
+
+#new-contractor{
+    display:none;
+    padding-bottom: 10px;
+}
 
 #new-task {
     display: none;
