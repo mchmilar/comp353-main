@@ -237,14 +237,14 @@ class POS extends Controller
             }
 
             foreach($pos as $po) {
-                $table .= "<tr>";
-                $table .= "<td>" . $po->poid . "</td>";
-                $table .= "<td>" . $po->purchase_date . "</td>";
-                $table .= "<td>" . $po->description . "</td>";
-                $table .= "<td>" . $po->est_delivery . "</td>";
-                $table .= "<td>" . $po->actual_delivery . "</td>";
+                $table .= "<tr class='po-row'>";
+                $table .= "<td class='po-id'><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $po->poid . "</a></td>";
+                $table .= "<td><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $po->purchase_date . "</a></td>";
+                $table .= "<td><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $po->description . "</a></td>";
+                $table .= "<td><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $po->est_delivery . "</a></td>";
+                $table .= "<td><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $po->actual_delivery . "</a></td>";
                 $total_cost = $po->cost;
-                $table .= "<td>" . $total_cost . "</td>";
+                $table .= "<td><a href='" . URL_WITH_INDEX_FILE . "pos/edit/" . $po->poid . "'>" . $total_cost . "</a></td>";
                 $table .= "</tr>";
             }
         } else {

@@ -14,6 +14,8 @@ $(document).ready(function() {
     });
 
 
+
+
 } );
 
 // Display correct PO form in project view
@@ -45,6 +47,8 @@ $("#new-supply-row-button").click(function() {
 $('.task-row').on('click', function(){
     taskRowClick(this);
 });
+
+
 
 
 function taskRowClick(selected) {

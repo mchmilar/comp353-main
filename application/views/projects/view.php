@@ -55,7 +55,7 @@ if (!$this)
     <!-- po list -->
     <div id="project-po-list" class="col-md-10 col-md-offset-1 content-box">
         <h5 class="po-content-label"><span class="task-name"></span> Purchase Orders</h5>
-        <table id="quote-list-table" class="table">
+        <table id="quote-list-table" class="table table-hover">
             <thead>
             <tr>
                 <th>PO ID</th>
@@ -241,4 +241,5 @@ if (!$this)
 <script>
     var pid = "<?php echo $pid; ?>";
     var permits = '<?php echo $permitsJson; ?>';
+    var url_with_index_file = "<?php echo URL_WITH_INDEX_FILE; ?>";
 </script>
