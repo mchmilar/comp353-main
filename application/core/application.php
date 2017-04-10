@@ -23,8 +23,8 @@ class Application
         
         // check for controller: no controller given ? then load start-page
         if (!$this->url_controller) {
-            require APP . 'controllers/users.php';
-            $page = new Users();
+            require APP . 'controllers/login.php';
+            $page = new Login();
             $page->index();
 
         } elseif (file_exists(APP . 'controllers/' . $this->url_controller . '.php')) {

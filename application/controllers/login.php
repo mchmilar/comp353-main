@@ -11,7 +11,7 @@
  * Class User
  * handles the user's login and logout process
  */
-class Users extends Controller
+class Login extends Controller
 {
 
     function __construct()
@@ -30,8 +30,12 @@ class Users extends Controller
 
     public function index()
     {
+        if(isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] == 1)
+        {
+            header('location: ' . URL_WITH_INDEX_FILE . 'projects');
+        }
         require APP . 'views/_templates/header.php';
-        require APP . 'views/_templates/view_login.php';
+        require APP . 'views/login/index.php';
         require APP . 'views/_templates/footer.php';
     }
 
@@ -39,7 +43,7 @@ class Users extends Controller
     public function view()
     {
 
-        require APP . 'views/_templates/view_login.php';
+        require APP . 'views/login/index.php';
 
     }
 
@@ -77,7 +81,7 @@ class Users extends Controller
         if($_SESSION['user_login_status'] == 1) {
                 header('location: ' . URL_WITH_INDEX_FILE . 'projects');
             } else {
-                header('location: ' . URL_WITH_INDEX_FILE . 'users');
+                header('location: ' . URL_WITH_INDEX_FILE . 'login');
             }
 
     }
@@ -92,7 +96,7 @@ class Users extends Controller
         $_SESSION = array();
         session_destroy();
         $this->messages[] = "You have been logged out.";
-        header('location: ' . URL_WITH_INDEX_FILE . 'users');
+        header('location: ' . URL_WITH_INDEX_FILE . 'login');
     }
 
     /**
