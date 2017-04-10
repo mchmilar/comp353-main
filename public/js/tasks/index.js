@@ -1,11 +1,16 @@
 /**
- * Created by markc on 4/7/2017.
+ * @file
+ * @author Mark Chmilar
+ * 
+ * Handles user triggered events in views/tasks/index.php
  */
 $(document).ready(function() {
     $("#new-button").click(function() {
         if ( $("#new-task").is(":hidden") ) {
             $("#new-task").slideDown("slow");
         }
+         else
+            $("#new-task").slideUp("slow");
     });
 
     $("#tasks-table > tbody > tr").click(function(){
