@@ -15,12 +15,14 @@
         </form>
     </div>
     <div id="new-task" class="col-md-12">
-        <form class="form-inline "  action="<?php echo URL_WITH_INDEX_FILE; ?>tasks/addTask" method="POST">
+        <form class="form-inline "  action="<?php echo URL_WITH_INDEX_FILE; ?>tasks/addTask" method="POST" data-parsley-validate="">
             <div class="form-group col-md-12">
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Description</span>
-                        <input name="description" type="text" class="input-sm form-control">
+                        <input name="description" type="text" class="input-sm form-control"
+                        required="" data-parsley-type="alphanum"
+                        data-parsley-maxlength="45">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -38,7 +40,8 @@
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Cost Factor</span>
-                        <input name="cfactor" type="text" class="input-sm form-control">
+                        <input name="cfactor" type="text" class="input-sm form-control"
+                        required="" data-parsley-dollars="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -49,19 +52,22 @@
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Cost Base</span>
-                        <input name="cbase" type="text" class="input-sm form-control">
+                        <input name="cbase" type="text" class="input-sm form-control"
+                        required="" data-parsley-dollars="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Time Factor</span>
-                        <input name="tfactor" type="text" class="input-sm form-control">
+                        <input name="tfactor" type="text" class="input-sm form-control"
+                        required="" data-parsley-dollars="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Time Base</span>
-                        <input name="tbase" type="text" class="input-sm form-control">
+                        <input name="tbase" type="text" class="input-sm form-control"
+                        required="" data-parsley-dollars="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
