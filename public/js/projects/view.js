@@ -69,6 +69,15 @@ function taskRowClick(selected) {
                     $("#quote-list-table-body").html(returnedData);
                 });
 
+            if (tid == 0) {
+                // hide po form
+                $("#hide-po-form").hide();
+                $("#project-po-list").css("height", "100vh");
+            } else {
+                $("#hide-po-form").show();
+                $("#project-po-list").css("height", "40vh");
+            }
+
             // Display proper PO panel for selected task
             $(".po-task-type-textbox").val(task_name);
             $(".task-name").html(task_name);
