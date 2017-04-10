@@ -23,7 +23,7 @@
                     <div class="input-group">
                         <span class="input-group-addon">Supplier Name</span>
                         <input name="supplier_name" type="text" class="input-sm form-control"
-                         data-parsley-name="" required="">
+                         data-parsley-type="alphanum"data-parsley-maxlength="45" required="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -41,7 +41,7 @@
                     </div>
                 </div> 
                 <div class= "form-group col-md-3">
-                	<input name="submit_add_supplier" type= "submit" value = "Create" class = "form-control input-sm" required="">
+                	<input name="submit_add_supplier" type= "submit" value = "Create" class = "form-control input-sm">
                 </div>
             </div>
         </form>
