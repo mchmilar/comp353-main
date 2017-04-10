@@ -25,6 +25,7 @@ $(document).ready(function() {
     $("#edit-task").click(function() {
         var id = $("#selected-task").val();
         window.location.replace(url_with_index_file + "tasks/edit/" + id);
-
     });
+
+
 } );

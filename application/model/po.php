@@ -14,12 +14,36 @@ class PO
         }
     }
 
-    public function addSupplyLine($poid, $sid, $tid, $pid, $mid, $desc, $uPrice, $qty) {
+    public function getPO($poid) {
+        $sql = "SELECT * FROM po where poid = :poid";
+        $parameters = array(':poid' => $poid);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
+    public function getAllPOs() {
+        $sql = "SELECT * FROM po";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    public function getAllProjectPOs($pid) {
+        $sql = "SELECT * FROM po  where pid = :pid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':pid' => $pid);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
+
+    public function addSupplyLine($poid, $sid, $tid, $mid, $desc, $uPrice, $qty) {
         $sql = "INSERT INTO supply
-                VALUES (:poid, :mid, :sid, :tid, :pid, :desc, :ucost, :qty)";
+                VALUES (:poid, :mid, :sid, :tid, :desc, :ucost, :qty)";
         $query = $this->db->prepare($sql);
         $parameters = array(':poid' => $poid, ':mid' => $mid, ':sid' => $sid,
-                            ':tid' => $tid, ':pid' => $pid, ':desc' => $desc,
+                            ':tid' => $tid, ':desc' => $desc,
                             ':ucost' => $uPrice, ':qty' => $qty);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         if (!$query->execute($parameters)) {
@@ -27,18 +51,18 @@ class PO
         }
     }
 
-    public function addLabourLine($poid, $cid, $tid, $pid, $desc, $rate, $hours) {
+    public function addLabourLine($poid, $cid, $tid, $desc, $rate, $hours) {
         $sql = "INSERT INTO labour
-                VALUES (:poid, :cid, :pid, :rate, :num_hours, :desc, :tid)";
+                VALUES (:poid, :cid, :rate, :num_hours, :desc, :tid)";
         $query = $this->db->prepare($sql);
         $parameters = array(':poid' => $poid, ':cid' => $cid, ':num_hours' => $hours,
-            ':tid' => $tid, ':pid' => $pid, ':desc' => $desc,
+            ':tid' => $tid, ':desc' => $desc,
             ':rate' => $rate);
         $query->execute($parameters);
     }
 
     public function getPOsTaskProj($pid, $tid, $poType) {
-        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and pid = :pid";
+        $sql = "SELECT po.poid, po.description, purchase_date, est_delivery, actual_delivery, po_type FROM po, $poType where po.poid = $poType.poid and tid = :tid and po.pid = :pid group by po.poid";
         $query = $this->db->prepare($sql);
         $parameters = array(':pid' => $pid, ':tid' => $tid);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
@@ -51,14 +75,14 @@ class PO
         return $query->fetchAll();
     }
 
-    public function createPO($poDesc, $estDelivery, $poType) {
+    public function createPO($poDesc, $estDelivery, $poType, $pid) {
         // get po id number to use
         $poid = $this->nextPOID();
         $today = date("Y-m-d");
-        $sql = "INSERT INTO po (poid, purchase_date, description, est_delivery, po_type)
-                VALUES (:poid, :purchase_date, :description, :est_delivery, :po_type)";
+        $sql = "INSERT INTO po (poid, purchase_date, description, est_delivery, po_type, pid)
+                VALUES (:poid, :purchase_date, :description, :est_delivery, :po_type, :pid)";
         $query = $this->db->prepare($sql);
-        $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid, ':po_type' => $poType);
+        $parameters = array(':purchase_date' => $today, ':description' => $poDesc, ':est_delivery' => $estDelivery, ':poid' => $poid, ':po_type' => $poType, ':pid' => $pid);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         if (!$query->execute($parameters)) {
             throw new Exception('Create PO Failed');

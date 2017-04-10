@@ -36,12 +36,16 @@ if (!$this)
     <h5>Tasks</h5>
     <table id="tasks-table" class="table table-condensed borderless">
         <tbody>
-        <?php foreach ($tasks as $tsk) { ?>
             <tr class="task-row">
-                <td class="tid-col hidden"><?php echo $tsk->tid; ?></td>
-                <td class="task-name-col"><?php echo $tsk->description; ?></td>
+                <td class="tid-col hidden">0</td>
+                <td class="task-name-col">All</td>
             </tr>
-        <?php } ?>
+            <?php foreach ($tasks as $tsk) { ?>
+                <tr class="task-row">
+                    <td class="tid-col hidden"><?php echo $tsk->tid; ?></td>
+                    <td class="task-name-col"><?php echo $tsk->description; ?></td>
+                </tr>
+            <?php } ?>
         </tbody>
     </table>
 </div>
@@ -79,6 +83,7 @@ if (!$this)
                     <select id="po-type-select" name="po-type" class="form-control input-sm">
                         <option value="supply">Supply</option>
                         <option value="labour">Labour</option>
+                        <option value="permit">Permit</option>
                     </select>
                 </div>
 
@@ -131,15 +136,18 @@ if (!$this)
                     </tr>
                     </thead>
                     <tbody id="supply-po-table-body">
-                    <tr>
-                        <td><input name="mid" type="text" class="form-control input-sm"> </td>
-                        <td><input name="description" type="text" class="form-control input-sm"> </td>
-                        <td><input name="unit-price" type="text" class="form-control input-sm"> </td>
-                        <td><input name="quantity" type="text" class="form-control input-sm"> </td>
-                    </tr>
+                        <tr>
+                            <td><input name="mid-1" type="text" class="form-control input-sm"> </td>
+                            <td><input name="description-1" type="text" class="form-control input-sm"> </td>
+                            <td><input name="unit-price-1" type="text" class="form-control input-sm"> </td>
+                            <td><input name="quantity-1" type="text" class="form-control input-sm"> </td>
+                        </tr>
                     </tbody>
                 </table>
 
+                <div class="form-group">
+                    <input id="new-supply-row-button" type="button" value="New Line" class="form-control input-sm">
+                </div>
                 <div>
 
                 </div>
@@ -162,7 +170,7 @@ if (!$this)
                 </div>
                 <div>
                     <div id='labour-collapse' role='tabpanel' aria-labelledby='labour-heading'>
-                        <table id="supply-po-table" class="table table-striped table-condensed">
+                        <table id="labour-po-table" class="table table-striped table-condensed">
                             <thead>
                             <tr>
                                 <th>Description</th>
@@ -171,9 +179,44 @@ if (!$this)
                             </tr>
                             </thead>
                             <tbody>
-                            <td><input name="description" type="text" class="form-control input-sm"> </td>
-                            <td><input name="rate" type="text" class="form-control input-sm"> </td>
-                            <td><input name="hours" type="text" class="form-control input-sm"> </td>
+                                <tr>
+                                    <td><input name="description" type="text" class="form-control input-sm"> </td>
+                                    <td><input name="rate" type="text" class="form-control input-sm"> </td>
+                                    <td><input name="hours" type="text" class="form-control input-sm"> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- permit Line Items -->
+            <div id="project-task-permit-po" class="invisible-panel">
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        <label></label>
+                        <select name="permit" class="form-control input-sm">
+                            <?php foreach ($permits as $permit) {
+                                echo '<option value="' . $permit->perm_num .'">'
+                                    . $permit->name
+                                    . '</option>';
+                            } ?>
+                        </select>
+                    </div>
+
+                </div>
+                <div>
+                    <div id='permit-collapse' role='tabpanel' aria-labelledby='permit-heading'>
+                        <table id="permit-po-table" class="table table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Permit ID</th>
+                                <th>Name</th>
+                                <th>Cost</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             </tbody>
                         </table>
                     </div>
