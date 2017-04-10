@@ -1,7 +1,4 @@
 <?php if (!$this) { exit(header('HTTP/1.0 403 Forbidden'))
-   // TODO
-    // Fix selection and editing (edit.php)
-    // Use Parsley to figure out form validation. 
 ; } ?>
 
 <!-- Start of subheader content -->
@@ -20,13 +17,13 @@
         </form>
     </div>
     <div id="new-supplier" class="col-md-12">
-        <form class="form-inline" action="<?php echo URL_WITH_INDEX_FILE; ?>suppliers/addSupplier" method="POST">
+        <form data-parsley-validate="" class="form-inline" action="<?php echo URL_WITH_INDEX_FILE; ?>suppliers/addSupplier" method="POST">
             <div class="form-group col-md-12">
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Supplier Name</span>
                         <input name="supplier_name" type="text" class="input-sm form-control"
-                        data-parsley-minlength="1">
+                         data-parsley-name="" required="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -34,7 +31,7 @@
                         <span class="input-group-addon">Phone Number</span>
                         <input name= "phone_number" type="text"
                         class="input-sm form-control"
-                        data-parsley=pattern="/\d-\(\d{3}\)\d{3}-\d{4}/">
+                        data-parsley-pattern="/\d-\(\d{3}\)\d{3}-\d{4}/" required="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
@@ -44,7 +41,7 @@
                     </div>
                 </div> 
                 <div class= "form-group col-md-3">
-                	<input name="submit_add_supplier" type= "submit" value = "Create" class = "form-control input-sm">
+                	<input name="submit_add_supplier" type= "submit" value = "Create" class = "form-control input-sm" required="">
                 </div>
             </div>
         </form>
