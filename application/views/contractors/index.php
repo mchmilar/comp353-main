@@ -16,39 +16,44 @@
         </form>
     </div>
     <div id="new-contractor" class="col-md-12">
-        <form class="form-inline" action="<?php echo URL_WITH_INDEX_FILE; ?>contractors/addContractor" method="POST">
+        <form data-parsley-validate="" class="form-inline" action="<?php echo URL_WITH_INDEX_FILE; ?>contractors/addContractor" method="POST">
             <div class="form-group col-md-12">
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Organization Name</span>
-                        <input name="org_name" type="text" class="input-sm form-control">
+                        <input name="org_name" type="text" class="input-sm form-control"
+                        data-parsley-name="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">First Name</span>
                         <input name= "first_name" type="text"
-                        class="input-sm form-control">
+                        class="input-sm form-control"
+                        data-parsley-name="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Last Name</span>
                         <input name= "last_name" type="text"
-                        class="input-sm form-control">
+                        class="input-sm form-control"
+                        data-parsley-name="">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Phone Number</span>
-                        <input name="phone" type="text" class="input-sm form-control">
+                        <input name="phone" type="text" class="input-sm form-control"
+                        data-parsley-pattern="/\d-\(\d{3}\)\d{3}-\d{4}/">
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Profession</span>
                         <input name= "profession" type="text"
-                        class="input-sm form-control">
+                        class="input-sm form-control"
+                        data-parsley-name="">
                     </div>
                 </div> 
                 <div class= "form-group col-md-3">
