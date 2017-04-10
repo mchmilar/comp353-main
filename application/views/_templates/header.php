@@ -64,6 +64,10 @@ if (!$this) {
                     // Link to contractors page
                     echo '<li><a href="/contractors">Contractors</a></li>';
                 }
+                if (isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] == 1 AND $_SESSION['access_level'] == 1) {
+                    // Link to Employees page.
+                    echo '<li><a href="index.php/employees">Employees</a></li>';
+                }
 
                 ?>
             </ul>
