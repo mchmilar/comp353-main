@@ -53,10 +53,16 @@ if (!$this) {
             <ul class="nav navbar-nav">
                 <?php
                 if (isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] == 1) {
-                    echo '<li class="active"><a href="index.php/projects">Projects</a></li>';
+                    // Link to projects page.
+                    echo '<li class="active"><a href="/index.php/projects">Projects</a></li>';
                 }
                 if (isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] == 1 AND $_SESSION['access_level'] == 1) {
-                    echo '<li><a href="index.php/tasks">Tasks</a></li>';
+                    // Link to Tasks page.
+                    echo '<li><a href="/index.php/tasks">Tasks</a></li>';
+                    // Link to Suppliers page
+                    echo '<li><a href="/index.php/suppliers">Suppliers</a></li>';
+                    // Link to contractors page
+                    echo '<li><a href="/index.php/contractors">Contractors</a></li>';
                 }
 
                 ?>
