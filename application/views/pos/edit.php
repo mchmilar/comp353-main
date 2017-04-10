@@ -9,7 +9,7 @@
 </div>
 
 <div id="right-pane-content">
-    <form class="form" action="<?php echo URL_WITH_INDEX_FILE; ?>pos/updateTask/<?php echo $task->tid; ?>" method="POST">
+    <form class="form" action="<?php echo URL_WITH_INDEX_FILE; ?>pos/updatePO/<?php echo $poid; ?>" method="POST">
         <div class="form-group">
             <div class="form-group">
                 <div class="input-group">
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Est. Delivery</span>
-                    <input id="po-edit-est-delivery" type="text" class="input-sm form-control" value="<?php echo $po->est_delivery; ?>">
+                    <input id="po-edit-est-delivery" name="est-delivery" type="text" class="input-sm form-control" value="<?php echo $po->est_delivery; ?>">
                 </div>
             </div>
 

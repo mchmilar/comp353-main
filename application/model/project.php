@@ -134,5 +134,18 @@ class Project
         return $pid;
     }
 
+    public function getCurrentPhase($pid) {
+        $sql = "select * from active_phase where pid = $pid";
+        $query = $this->db->prepare($sql);
+        if (!$query->execute()) throw new Exception("Error getting current phase");
+        return $query->fetch()->phase_id;
+    }
+
+    public function incrementPhase($pid) {
+        $sql = "update active_phase set phase_id = (1 + phase_id) where pid = $pid";
+        $query = $this->db->prepare($sql);
+        if (!$query->execute()) throw new Exception("Error incrementing current phase");
+    }
+
 
 }

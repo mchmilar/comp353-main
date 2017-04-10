@@ -151,6 +151,22 @@ class PO
         return $query->fetchAll();
     }
 
+    public function getLabourLines($poid) {
+        $sql = "SELECT * FROM labour WHERE poid = :poid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':poid' => $poid);
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
+
+    public function getPermitLines($poid) {
+        $sql = "SELECT * FROM permitted WHERE poid = :poid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':poid' => $poid);
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
+
     public function totalLabourCost($poid) {
         $sql = "SELECT rate, num_hours FROM labour WHERE poid = :poid";
         $query = $this->db->prepare($sql);
@@ -177,12 +193,62 @@ class PO
         return $total;
     }
 
+    public function getPID($poid) {
+        $sql = "select pid from po where poid = $poid";
+        $query = $this->db->prepare($sql);
+        if (!$query->execute()) throw new Exception("Error getting PID");
+        return $query->fetch()->pid;
+    }
     public function nextPOID() {
         $sql = "SELECT max(poid) as poid FROM po";
         $query = $this->db->prepare($sql);
         $query->execute();
         $po = $query->fetch();
         return $po->poid +1;
+    }
+
+    public function updatePO($poid, $desc, $estDelivery, $actDelivery) {
+        if (strlen($actDelivery) == 0) $actDelivery = null;
+        $sql = "update po set description = :desc, est_delivery = :ed, actual_delivery = :ad
+                WHERE poid = :poid";
+        $parameters = array(':desc' => $desc, ':ed' => $estDelivery, ':ad' => $actDelivery, ':poid' => $poid);
+        $query = $this->db->prepare($sql);
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+        if (!$query->execute($parameters)) throw new Exception("Error updatePO");
+    }
+
+    public function phaseComplete($pid, $currentPhase) {
+        // Get tasks associated with
+        $sql = "select * from part_of where phase_id = $currentPhase";
+        $query = $this->db->prepare($sql);
+//        echo '[ PDO DEBUG ]: ' . $sql;  exit();
+        if (!$query->execute()) throw new Exception("Error getting tasks for phase");
+        $tasks = $query->fetchAll();
+        $taskIds = array();
+        foreach ($tasks as $task) {
+            array_push($taskIds, $task->tid);
+
+        }
+
+
+        $isComplete = false;
+
+        // Get po's for project
+        $sql = "select * from po where pid = $pid";
+        $query = $this->db->prepare($sql);
+        if (!$query->execute()) throw new Exception("Error get project po's");
+        $pos = $query->fetchAll();
+
+        foreach ($pos as $po) {
+            $isPartOfPhase = in_array($po->tid, $taskIds);
+            if ($isPartOfPhase) {
+                $isComplete = true;
+                if ($po->actual_delivery == null)
+                    $isComplete = false;
+            }
+//            print in_array($po->tid, $taskIds);
+        }
+        return $isComplete;
     }
 
 }

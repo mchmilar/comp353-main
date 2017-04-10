@@ -30,9 +30,39 @@ class POS extends Controller
         $this->contractor = new Contractor($this->db);
     }
 
+    public function updatePO($poid) {
+        $desc = $_POST['description'];
+        $estDelivery = $_POST['est-delivery'];
+        $actDelivery = $_POST['actual-delivery'];
+
+
+
+
+
+        $this->db->beginTransaction();
+        try {
+            $this->po->updatePO($poid, $desc, $estDelivery, $actDelivery);
+
+            // get current phase
+            $pid = $this->po->getPID($poid);
+            $currentPhase = $this->project->getCurrentPhase($pid);
+
+            if ($this->po->phaseComplete($pid, $currentPhase)){
+                $this->project->incrementPhase($pid);
+            }
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            $_SESSION["addPoError"] = $e->getMessage();
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'pos/edit/' . $poid));
+        }
+        $this->db->commit();
+
+        $this->edit($poid);
+    }
+
     public function makePayment($poid) {
         $amount = $_POST['payment'];
-        $this->po->pay($poid, $amount);
+        if ($amount > 0) $this->po->pay($poid, $amount);
 
         $this->edit($poid);
     }
@@ -42,6 +72,10 @@ class POS extends Controller
         $payments = $this->po->getPayments($poid);
         if ($po->po_type === 'supply') {
             $supplyLines = $this->po->getSupplyLines($poid);
+        } elseif ($po->po_type === 'labour') {
+            $labourLines = $this->po->getLabourLines($poid);
+        } elseif ($po->po_type === 'permit') {
+            $permitLines = $this->po->getPermitLines($poid);
         }
 
         require APP . 'views/_templates/header.php';
