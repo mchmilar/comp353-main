@@ -41,7 +41,7 @@ class Task
             ':tBaseCond' => $tBaseCond,
             ':tBase' => (($tBase) ? $tBase : 0)
             );
-        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
+//        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
         return $query->fetchAll();
     }

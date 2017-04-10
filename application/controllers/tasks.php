@@ -54,15 +54,17 @@ class Tasks extends Controller
 
         // if we have POST data to create a new project
         if (isset($_POST["submit_task_filter"])) {
-            $new_pid = $this->task->filterTasks($desc , $phase, $cFactorCond, $cFactor, $cBaseCond, $cBase, $tFactorCond, $tFactor, $tBaseCond, $tBase);
+            $tasks = $this->task->filterTasks($desc , $phase, $cFactorCond, $cFactor, $cBaseCond, $cBase, $tFactorCond, $tFactor, $tBaseCond, $tBase);
         }
 
-        // where to go after project has been added
-        if ($new_pid) {
-            header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $new_pid);
-        } else {
-            header('location: ' . URL_WITH_INDEX_FILE . 'projects/index');
-        }
+        // where to go after filtering tasks
+        $phases = $this->phase->getAllPhases();
+
+
+        require APP . 'views/_templates/header.php';
+        require APP . 'views/_templates/body.php';
+        require APP . 'views/tasks/index.php';
+        require APP . 'views/_templates/footer.php';
 
     }
 
