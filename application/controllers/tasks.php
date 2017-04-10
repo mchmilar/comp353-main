@@ -23,6 +23,12 @@ class Tasks extends Controller
         {
             die(header('location: ' . URL_WITH_INDEX_FILE . 'users'));
         }
+
+        //Gets customer specific data for users without general access
+        if(isset($_SESSION['access_level']) AND $_SESSION['access_level'] != 1)
+        {
+            die(header('location: ' . URL_WITH_INDEX_FILE . 'projects'));
+        }
         require APP . '/model/task.php';
         require APP . '/model/phase.php';
         // create new "model" (and pass the database connection)
