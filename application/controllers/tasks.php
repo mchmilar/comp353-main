@@ -38,22 +38,24 @@ class Tasks extends Controller
 
     public function filterTasks()
     {
-        $new_pid = 0;
 
-        $desc = $_POST['description'];
-        $phase = $_POST['phase'];
-        $cFactorCond = $this->translateCondition($_POST['cost-factor-condition']);
-        $cFactor = $_POST['cost-factor'];
-        $cBaseCond = $this->translateCondition($_POST['cost-base-condition']);
-        $cBase = $_POST['cost-base'];
-        $tFactorCond = $this->translateCondition($_POST['time-factor-condition']);
-        $tFactor = $_POST['time-factor'];
-        $tBaseCond = $this->translateCondition($_POST['time-base-condition']);
-        $tBase = $_POST['time-base'];
 
 
         // if we have POST data to create a new project
         if (isset($_POST["submit_task_filter"])) {
+            $new_pid = 0;
+
+            $desc = $_POST['description'];
+            $phase = $_POST['phase'];
+            $cFactorCond = $this->translateCondition($_POST['cost-factor-condition']);
+            $cFactor = $_POST['cost-factor'];
+            $cBaseCond = $this->translateCondition($_POST['cost-base-condition']);
+            $cBase = $_POST['cost-base'];
+            $tFactorCond = $this->translateCondition($_POST['time-factor-condition']);
+            $tFactor = $_POST['time-factor'];
+            $tBaseCond = $this->translateCondition($_POST['time-base-condition']);
+            $tBase = $_POST['time-base'];
+
             $tasks = $this->task->filterTasks($desc , $phase, $cFactorCond, $cFactor, $cBaseCond, $cBase, $tFactorCond, $tFactor, $tBaseCond, $tBase);
         }
 
@@ -81,6 +83,24 @@ class Tasks extends Controller
 
         $tasks = $this->task->getAllTasks();
         $phases = $this->phase->getAllPhases();
+
+        // if we have POST data to create a new project
+        if (isset($_POST["submit_task_filter"])) {
+            $new_pid = 0;
+
+            $desc = $_POST['description'];
+            $phase = $_POST['phase'];
+            $cFactorCond = $this->translateCondition($_POST['cost-factor-condition']);
+            $cFactor = $_POST['cost-factor'];
+            $cBaseCond = $this->translateCondition($_POST['cost-base-condition']);
+            $cBase = $_POST['cost-base'];
+            $tFactorCond = $this->translateCondition($_POST['time-factor-condition']);
+            $tFactor = $_POST['time-factor'];
+            $tBaseCond = $this->translateCondition($_POST['time-base-condition']);
+            $tBase = $_POST['time-base'];
+
+            $tasks = $this->task->filterTasks($desc , $phase, $cFactorCond, $cFactor, $cBaseCond, $cBase, $tFactorCond, $tFactor, $tBaseCond, $tBase);
+        }
 
 
         require APP . 'views/_templates/header.php';

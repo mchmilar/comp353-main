@@ -23,13 +23,14 @@ class Task
      $tBaseCond,
      $tBase) {
        $sql = "select * from task natural join phase
-                where lower(description) like lower(:desc)".
-           (($phase) ? "and phase_id = :phase" : "")
+                where lower(description) like lower(:desc) ".
+           (($phase) ? "and phase_id = :phase " : "")
                 ."and cost_per_sq_foot " . $cFactorCond . " :cFactor
                 and base_cost " . $cBaseCond . " :cBase
                 and time_per_sq_foot " . $tFactorCond . " :tFactor
                 and base_time " . $tBaseCond . " :tBase";
         $query = $this->db->prepare($sql);
+//        echo '$phase = ' . $phase;
         $parameters = array(':desc' => "%$desc%",
             ':phase' => $phase,
             ':cFactor' => (($cFactor) ? $cFactor : 0),
@@ -37,7 +38,9 @@ class Task
             ':tFactor' => (($tFactor) ? $tFactor : 0),
             ':tBase' => (($tBase) ? $tBase : 0)
             );
+//        echo '$parameters[\':phase\'] = ' . $parameters[':phase'];
         if (!$phase) unset($parameters[':phase']);
+//        echo '$parameters[\':phase\'] = ' . $parameters[':phase']; die();
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
         return $query->fetchAll();
