@@ -102,6 +102,14 @@ class PO
         return $poid;
     }
 
+    public function getSupplyLines($poid) {
+        $sql = "SELECT * FROM supply WHERE poid = :poid";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':poid' => $poid);
+        $query->execute($parameters);
+        return $query->fetchAll();
+    }
+
     public function totalLabourCost($poid) {
         $sql = "SELECT rate, num_hours FROM labour WHERE poid = :poid";
         $query = $this->db->prepare($sql);

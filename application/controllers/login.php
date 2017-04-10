@@ -78,10 +78,10 @@ class Login extends Controller
 
         }
 
-        if($_SESSION['user_login_status'] == 1) {
-                header('location: ' . URL_WITH_INDEX_FILE . 'projects');
+        if(isset($_SESSION['user_login_status']) && $_SESSION['user_login_status'] == 1) {
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'projects'));
             } else {
-                header('location: ' . URL_WITH_INDEX_FILE . 'login');
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'login'));
             }
 
     }

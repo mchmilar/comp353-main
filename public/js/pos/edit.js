@@ -5,5 +5,8 @@ $(document).ready(function() {
     $("#po-edit-est-delivery").datepicker({
         dateFormat: 'yy-mm-dd'
     });
+    $("#po-edit-actual-delivery").datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
 } );
 

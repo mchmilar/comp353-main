@@ -33,6 +33,10 @@ class POS extends Controller
     public function edit($poid) {
         $po = $this->po->getPO($poid);
 
+        if ($po->po_type === 'supply') {
+            $supplyLines = $this->po->getSupplyLines($poid);
+        }
+
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/body.php';
         require APP . 'views/pos/edit.php';
