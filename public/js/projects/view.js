@@ -21,6 +21,15 @@ $("#po-type-select").change(function() {
     displayPoForm(this);
 });
 
+$("#add-permit-button").click(function() {
+    $("#permit-table-body").append('' +
+        '<tr>' +
+        '<td><input disabled name="permit-num" type="text" value="1"></td>' +
+        '<td>Building Permit</td>' +
+        '<td><input name="permit-cost" type="text"></td>' +
+        '</tr>');
+});
+
 $("#new-supply-row-button").click(function() {
     $("#supply-po-table").append('' +
         '<tr>' +
@@ -50,6 +59,7 @@ function taskRowClick(selected) {
         duration: 200,
         done: function() {
             // Get PO's for selected task
+            console.log("hi1 ");
             $.get(url +"pos/ajaxPOsTaskProj/" + pid + "/" + tid,
                 function(returnedData){
                     $("#quote-list-table-body").html(returnedData);
@@ -73,9 +83,17 @@ function displayPoForm(selected) {
         $("#project-task-labour-po").addClass("invisible-panel");
         $("#project-task-permit-po").addClass("invisible-panel");
         $("#project-task-supply-po").removeClass("invisible-panel");
+        $("#po-description").removeClass("invisible-panel");
+        $("#add-permit-button").addClass("invisible-panel");
 
         // Disable labour inputs
         var inputs = $("#project-task-labour-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+        // Disable permit inputs
+        var inputs = $("#project-task-permit-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', true);
         });
@@ -89,8 +107,10 @@ function displayPoForm(selected) {
     } else if (poType.toLowerCase() === 'labour') {
         // display labour po form
         $("#project-task-labour-po").removeClass("invisible-panel");
+        $("#po-description").removeClass("invisible-panel");
         $("#project-task-supply-po").addClass("invisible-panel");
         $("#project-task-permit-po").addClass("invisible-panel");
+        $("#add-permit-button").addClass("invisible-panel");
 
         // Disable supply inputs
         var inputs = $("#project-task-supply-po :input");
@@ -98,14 +118,41 @@ function displayPoForm(selected) {
             $(value).prop('disabled', true);
         });
 
+        // Disable permit inputs
+        var inputs = $("#project-task-permit-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+
         // Enable labour inputs
         var inputs = $("#project-task-labour-po :input");
         $.each(inputs, function(index, value) {
             $(value).prop('disabled', false);
         });
+
     } else {
         $("#project-task-labour-po").addClass("invisible-panel");
         $("#project-task-supply-po").addClass("invisible-panel");
+        $("#add-permit-button").removeClass("invisible-panel");
         $("#project-task-permit-po").removeClass("invisible-panel");
+        $("#po-description").addClass("invisible-panel");
+        // Disable supply inputs
+        var inputs = $("#project-task-supply-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+        // Disable labour inputs
+        var inputs = $("#project-task-labour-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', true);
+        });
+
+        // Enable labour inputs
+        var inputs = $("#project-task-permit-po :input");
+        $.each(inputs, function(index, value) {
+            $(value).prop('disabled', false);
+        });
     }
 }

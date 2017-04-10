@@ -51,6 +51,15 @@ class PO
         }
     }
 
+    public function addPermitLine($poid, $taskId, $permitNum, $permitCost) {
+        $sql = "INSERT INTO permitted
+                VALUES (:poid, :perm_num, :tid, :cost)";
+        $parameters = array(':poid' => $poid, ':perm_num' => $permitNum, ':tid' => $taskId, ':cost' => $permitCost);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+
+    }
+
     public function addLabourLine($poid, $cid, $tid, $desc, $rate, $hours) {
         $sql = "INSERT INTO labour
                 VALUES (:poid, :cid, :rate, :num_hours, :desc, :tid)";

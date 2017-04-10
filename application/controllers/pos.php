@@ -120,6 +120,22 @@ class POS extends Controller
                 die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
             }
             $this->db->commit();
+        } else {
+            $permitCost = $_POST['permit-cost'];
+            $permitNum = $_POST['permit-num'];
+            // Create PO and get its id
+            $this->db->beginTransaction();
+            try {
+                $poid = $this->po->createPO($poDesc, $estDelivery, $poType, $pid);
+
+                // Insert each line item into supply
+                $sid = $this->po->addPermitLine($poid, $taskId, $permitNum, $permitCost);
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                $_SESSION["addPoError"] = $e->getMessage();
+                die(header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid));
+            }
+            $this->db->commit();
         }
         header('location: ' . URL_WITH_INDEX_FILE . 'projects/view/' . $pid);
     }

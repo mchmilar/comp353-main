@@ -100,7 +100,7 @@ if (!$this)
                 </div>
 
                 <!-- PO Description -->
-                <div class="col-xs-2">
+                <div id="po-description" class="col-xs-2">
                     <label>Description</label>
                     <input id="po-description" name="po-description" type="text" class="form-control input-sm">
                 </div>
@@ -203,9 +203,12 @@ if (!$this)
                                     . '</option>';
                             } ?>
                         </select>
+                        <input id="add-permit-button" type="button" value="Add Permit" class="form-control input-sm">
                     </div>
 
                 </div>
+
+
                 <div>
                     <div id='permit-collapse' role='tabpanel' aria-labelledby='permit-heading'>
                         <table id="permit-po-table" class="table table-striped table-condensed">
@@ -216,7 +219,7 @@ if (!$this)
                                 <th>Cost</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="permit-table-body">
                             </tbody>
                         </table>
                     </div>
@@ -232,4 +235,5 @@ if (!$this)
 </div>
 <script>
     var pid = "<?php echo $pid; ?>";
+    var permits = '<?php echo $permitsJson; ?>';
 </script>

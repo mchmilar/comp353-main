@@ -85,7 +85,6 @@ class Projects extends Controller
         $permits = $this->permit->getAll();
         $permitsJson = json_encode($permits);
 
-
         require APP . 'views/_templates/header.php';
         require APP . 'views/_templates/body.php';
         require APP . 'views/projects/view.php';
