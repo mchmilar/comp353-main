@@ -86,6 +86,13 @@ class PO
         return $query->fetchAll();
     }
 
+    public function getPayments($poid) {
+        $sql = "SELECT * from payment where poid = $poid";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
     public function createPO($poDesc, $estDelivery, $poType, $pid, $tid) {
         // get po id number to use
         $poid = $this->nextPOID();
@@ -100,6 +107,40 @@ class PO
         }
 
         return $poid;
+    }
+
+
+    public function nextPaymentNum($poid) {
+        $sql = "select max(num) as num from payment where poid = $poid";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetch()->num + 1;
+    }
+
+    public function pay($poid, $amount) {
+        $sql = "SELECT cost, paid FROM po where poid = $poid";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        $result = $query->fetch();
+        $owed = $result->cost - $result->paid;
+//        echo $owed . " $amount";die();
+
+        // get next paid number
+        $num = $this->nextPaymentNum($poid);
+
+        if ($amount >= $owed) {
+
+            $sql = "UPDATE po SET paid = cost WHERE poid = $poid;
+                    INSERT INTO payment VALUES ($poid, $num, $owed, curdate())";
+        } else {
+            $sql = "UPDATE po SET paid = ($amount + paid) WHERE poid = $poid;
+                    INSERT INTO payment VALUES ($poid, $num, $amount, curdate())";
+        }
+        $query = $this->db->prepare($sql);
+//        echo '[ PDO DEBUG ]: ' . $sql;  exit();
+        if (!$query->execute()) {
+            throw new Exception('Payment failed');
+        }
     }
 
     public function getSupplyLines($poid) {

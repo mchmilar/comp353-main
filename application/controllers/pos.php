@@ -30,9 +30,16 @@ class POS extends Controller
         $this->contractor = new Contractor($this->db);
     }
 
+    public function makePayment($poid) {
+        $amount = $_POST['payment'];
+        $this->po->pay($poid, $amount);
+
+        $this->edit($poid);
+    }
+
     public function edit($poid) {
         $po = $this->po->getPO($poid);
-
+        $payments = $this->po->getPayments($poid);
         if ($po->po_type === 'supply') {
             $supplyLines = $this->po->getSupplyLines($poid);
         }
