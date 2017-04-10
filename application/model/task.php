@@ -32,15 +32,12 @@ class Task
         $query = $this->db->prepare($sql);
         $parameters = array(':desc' => "%$desc%",
             ':phase' => $phase,
-            ':cFactorCond' => $cFactorCond,
             ':cFactor' => (($cFactor) ? $cFactor : 0),
-            ':cBaseCond' => $cBaseCond,
             ':cBase' => (($cBase) ? $cBase : 0),
-            ':tFactorCond' => $tFactorCond,
             ':tFactor' => (($tFactor) ? $tFactor : 0),
-            ':tBaseCond' => $tBaseCond,
             ':tBase' => (($tBase) ? $tBase : 0)
             );
+        if (!$phase) unset($parameters[':phase']);
 //        echo '[ PDO DEBUG ]: ' . debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
         return $query->fetchAll();
